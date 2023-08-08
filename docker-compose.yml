@@ -1,0 +1,40 @@
+services:
+  backend:
+    build: ./backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    command: npm run dev
+    volumes:
+      - ./frontend/app:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+    environment:
+      - WATCHPACK_POLLING=true
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  postfix:
+    image: catatnight/postfix
+    environment:
+      - maildomain=mail.yourdomain.com
+      - smtp_user=user:pwd
+
+volumes:
+  postgres_data:
