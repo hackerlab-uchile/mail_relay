@@ -18,23 +18,20 @@ services:
       - 3000:3000
     depends_on:
       - backend
-    environment:
-      - WATCHPACK_POLLING=true
+    env_file:
+      - .env
 
   db:
     image: postgres:13
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=mydatabase
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
   postfix:
     image: catatnight/postfix
-    environment:
-      - maildomain=mail.yourdomain.com
-      - smtp_user=user:pwd
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
