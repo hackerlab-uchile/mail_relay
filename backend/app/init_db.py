@@ -1,3 +1,8 @@
-from core.database import engine, metadata
+from core.database import engine, Base
+from models.users import User
+from models.aliases import Alias
+from models.webauth_keys import WebauthKey
 
-metadata.create_all(engine)
+
+print("Creating database tables...")
+Base.metadata.create_all(bind=engine)

@@ -1,12 +1,8 @@
-from databases import Database
-from sqlalchemy import create_engine, MetaData
-
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from .config import DATABASE_URL
 
-metadata = MetaData()
+engine = create_engine(DATABASE_URL, echo=True)
 
-# Databases query builder
-database = Database(DATABASE_URL)
-
-# SQLAlchemy specific
-engine = create_engine(DATABASE_URL)
+class Base(DeclarativeBase):
+    pass

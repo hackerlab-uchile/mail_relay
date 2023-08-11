@@ -24,7 +24,9 @@ services:
       - .env
 
   db:
-    image: postgres:13
+    image: postgres
+    ports:
+      - 5432:5432
     env_file:
       - .env
     volumes:

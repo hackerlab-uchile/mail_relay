@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-sqlalchemy
+sqlalchemy==2.0.19
 databases
 alembic
-asyncpg
+psycopg2-binary

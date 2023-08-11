@@ -1,11 +1,16 @@
-from sqlalchemy import Table, Column, String, CHAR, Boolean, ForeignKey, PrimaryKeyConstraint
-from core.database import metadata
+from .users import User
+from core.database import Base
+from sqlalchemy import ForeignKey, String, Boolean
+from sqlalchemy.orm import Mapped, mapped_column
 
-aliases = Table(
-    "aliases",
-    metadata,
-    Column("id", CHAR(36), primary_key=True),
-    Column("user_id", CHAR(36), ForeignKey("users.id", ondelete="CASCADE")),
-    Column("email", String(255), unique=True),
-    Column("active", Boolean, default=True)
-)
+class Alias(Base):
+    __tablename__ = "aliases"
+
+    #id = Column(CHAR(36), primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    #user_id = Column(CHAR(36), ForeignKey(User.id, ondelete="CASCADE"))
+    user_id: Mapped[int] = mapped_column(ForeignKey(User.id, ondelete="CASCADE"))
+    #email = Column(String(255), unique=True)
+    email: Mapped[str] = mapped_column(String(255), unique=True)
+    #active = Column(Boolean, default=True)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
