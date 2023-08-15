@@ -12,3 +12,8 @@ class WebauthKey(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
     credentialId: Mapped[str] = mapped_column(String(255), index=True)
     type: Mapped[str] = mapped_column(String(255))
+
+#PYDANTIC
+class WebauthKeyBase(Base):
+    credentialId: str
+    type: str
