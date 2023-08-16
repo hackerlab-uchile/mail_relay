@@ -1,6 +1,7 @@
 from app.core.database import Base
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
+from pydantic import BaseModel
 
 class WebauthKey(Base):
     __tablename__ = "webauthn_keys"
@@ -11,6 +12,7 @@ class WebauthKey(Base):
     type: Mapped[str] = mapped_column(String(255))
 
 #PYDANTIC
-class WebauthKeyBase(Base):
+class WebauthKeyBase(BaseModel):
+    user_id: int
     credentialId: str
     type: str
