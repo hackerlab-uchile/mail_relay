@@ -15,3 +15,4 @@ class Alias(Base):
 class AliasBase(BaseModel):
     email: str
     active: bool
+    user_id: int
