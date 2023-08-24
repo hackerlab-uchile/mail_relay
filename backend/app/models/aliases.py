@@ -1,6 +1,7 @@
 from app.core.database import Base
 from sqlalchemy import ForeignKey, String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
+from typing import Optional
 from pydantic import BaseModel
 
 class Alias(Base):
@@ -14,5 +15,4 @@ class Alias(Base):
 #PYDANTIC
 class AliasBase(BaseModel):
     email: str
-    active: bool
-    user_id: int
+    active: Optional[bool] = True

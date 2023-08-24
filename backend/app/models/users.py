@@ -15,6 +15,8 @@ class User(Base):
 #PYDANTIC
 class UserBase(BaseModel):
     username: str
+    recipient_email: str
+
+class UserCreate(UserBase):
     password: str
     remember_token: str
-    recipient_email: str
