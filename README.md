@@ -30,6 +30,7 @@
         - **test_aliases.py**: Tests for alias endpoints.
         - **test_users.py**: Tests for user endpoints.
       - **main.py**: The main entry point for the application.
-    - **.env**: Environment variables of the project.
-    - **docker-compose.yml**: Configuration for Docker Compose. Used to define and run multi-container Docker applications.
   - **frontend/**: Contains all frontend related files and directories
+  - **db-init-scripts/**: Contains scripts that are executed during the initialization of the database container.
+  - **.env**: Environment variables of the project.
+  - **docker-compose.yml**: Configuration for Docker Compose. Used to define and run multi-container Docker applications.
