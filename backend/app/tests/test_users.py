@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.models.users import UserCreate
 from app.core.database import get_db, get_test_db, Base, test_engine
+from app.core.security import create_access_token
 import pytest
 
 
@@ -33,20 +34,29 @@ def test_user():
         recipient_email="test@email.com"
     )
 
-# Test user signup
+@pytest.fixture
+def authenticated_client(test_client, test_user, override_get_db):
+    response = test_client.post("/users/signup/", json=test_user.model_dump())
+    access_token = create_access_token(data={"sub": test_user.username})
+    test_client.headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+    return test_client
+
+# POST /signup/ Testing user signup
 def test_signup(test_client, test_user, override_get_db):
     response = test_client.post("/users/signup/", json=test_user.model_dump())
     assert response.status_code == 200
     assert "username" in response.json()
 
-# Test user signup with an existing username
+# POST /signup/ Test user signup with an existing username
 def test_signup_existing_username(test_client, test_user, override_get_db):
     test_client.post("/users/signup/", json=test_user.model_dump())
     response = test_client.post("/users/signup/", json=test_user.model_dump())
     assert response.status_code == 400
     assert response.json()["detail"] == "Username already registered"
 
-# Test user signup with an existing email
+# POST /signup/ Test user signup with an existing email
 def test_signup_existing_email(test_client, test_user, override_get_db):
     test_client.post("/users/signup/", json=test_user.model_dump())
     test_user.username = "newusername"
@@ -54,22 +64,35 @@ def test_signup_existing_email(test_client, test_user, override_get_db):
     assert response.status_code == 400
     assert response.json()["detail"] == "Email already registered"
 
-# Test user login
+# POST /signin/ Testing user login
 def test_signin(test_client, test_user, override_get_db):
     test_client.post("/users/signup/", json=test_user.model_dump())
     response = test_client.post("/users/signin/", data={"username": test_user.username, "password": test_user.password})
     assert response.status_code == 200
     assert "access_token" in response.json()
 
-# Test user login with incorrect password
+# POST /signin/ Test user login with incorrect password
 def test_signin_incorrect_password(test_client, test_user, override_get_db):
     test_client.post("/users/signup/", json=test_user.model_dump())
     response = test_client.post("/users/signin/", data={"username": test_user.username, "password": "wrongpassword"})
     assert response.status_code == 400
     assert response.json()["detail"] == "Incorrect username or password"
 
-# Test user login with non-existing user
+# POST /signin/ Test user login with non-existing user
 def test_signin_non_existing_user(test_client, override_get_db):
     response = test_client.post("/users/signin/", data={"username": "nonexistent", "password": "password123"})
     assert response.status_code == 400
     assert response.json()["detail"] == "Incorrect username or password"
+
+# GET /me/ Retrieve user profile without authentication
+def test_get_user_profile_no_auth(test_client):
+    response = test_client.get("/users/me/")
+    assert response.status_code == 401  # Unauthorized
+
+# GET /me/ Retrieve user profile with valid authentication
+def test_get_user_profile_valid_auth(authenticated_client, test_user):
+    authenticated_client.post("/users/signup/", json=test_user.model_dump())
+    response = authenticated_client.get("/users/me/")
+    assert response.status_code == 200
+    assert "username" in response.json()
+    assert response.json()["username"] == test_user.username
