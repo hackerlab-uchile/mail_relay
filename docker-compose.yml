@@ -16,6 +16,7 @@ services:
     command: npm run dev
     volumes:
       - ./frontend/app:/app
+      - /app/node_modules
     ports:
       - 3000:3000
     depends_on:
