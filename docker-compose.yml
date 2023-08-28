@@ -31,15 +31,8 @@ services:
       - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      - ./db-init-scripts:/docker-entrypoint-initdb.d/
 
-  test_db:
-    image: postgres
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: test_mydb
 
   postfix:
     image: catatnight/postfix
