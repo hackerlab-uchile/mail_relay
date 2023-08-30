@@ -15,7 +15,11 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Docker image
-      run: docker build -t my-docker-image ./backend --env-file .env
+      run: docker build -t my-docker-image ./backend
 
     - name: Run tests in Docker container
       run: docker run my-docker-image pytest app/tests/
+      env:
+        SECRET_KEY: CHANGEMEfaa6ca2556c818166b7a3182b93f7099f6f0f4caz6cf63b88e8d3e72
+        ALGORITHM: HS256
+        ACCESS_TOKEN_EXPIRE_MINUTES: 20
