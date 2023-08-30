@@ -18,4 +18,7 @@ jobs:
       run: docker build -t my-docker-image ./backend
 
     - name: Build and Run tests with Docker Compose
-      run: docker-compose -f docker-compose.yml up --abort-on-container-exit
+      run: docker-compose up -d backend db
+
+    - name: Run tests
+      run: docker-compose exec -T backend pytest app/tests/
