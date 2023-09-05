@@ -3,3 +3,4 @@ __pycache__/
 .env
 .pytext_cache/
 .coverage
+/node_modules/
