@@ -1,5 +1,6 @@
 import AuthProtected from "@/components/auth/AuthProtected"
 import Head from "next/head";
+import IndexPage from "@/components/IndexPage"
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AuthProtected>
-        <h1>esto no deberia verse si no estas logueado</h1>
+        <IndexPage />
       </AuthProtected>
     </>
   );

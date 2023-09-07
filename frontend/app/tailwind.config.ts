@@ -17,7 +17,7 @@ module.exports = {
           dark: "#D9DBE9",
         },
         font: {
-          DEFAULT: "#ff0000",
+          DEFAULT: "#111111",
           title: "#2C2948",
           subtitle: "#6E7191",
           input: "#14142B",
