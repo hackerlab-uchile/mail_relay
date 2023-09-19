@@ -35,13 +35,6 @@ export default function Home() {
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-primary">
       <div className="absolute bottom-0 right-0">
-        <Image
-          src={"abstractform.svg"}
-          width="700"
-          height="700"
-          alt=""
-          className="opacity-30"
-        />
       </div>
       <Head>
         <title>Log In | My App</title>
