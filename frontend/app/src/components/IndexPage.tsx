@@ -1,13 +1,25 @@
 import { useState } from 'react';
 import Toggle from './ui/toggle';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { logout } from "@/hooks/auth";
 
 export default function IndexPage() {
   const [aliases, setAliases] = useState([
     { name: "alias1", active: true },
     { name: "alias2", active: false },
-    //(sample aliases)
   ]);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+  const logoutMutation = useMutation(logout, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["usuario", "me"]);
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
   const toggleAlias = (index: number) => {
     const newAliases = [...aliases];
@@ -18,15 +30,15 @@ export default function IndexPage() {
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Header */}
-      <header className="p-4 bg-blue-500 text-font">
+      <header className="p-4 bg-blue-500 text-font dark:bg-gray-900">
         <div className="container mx-auto flex justify-between items-center">
           <div>
-            <h1>Mail Relay</h1>
+            <h1 className="text-2xl font-semibold text-black dark:text-white mr-6">Mail Relay</h1>
           </div>
           <div className="relative">
             <button 
               type="button" 
-              className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-font" 
+              className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 white:text-font dark:text-white" 
               aria-expanded="false"
               onClick={() => setMenuOpen(!menuOpen)}
             >
@@ -39,8 +51,8 @@ export default function IndexPage() {
             {menuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-md">
                 <ul>
-                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">Settings</li>
-                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">Logout</li>
+                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded-lg">Settings</li>
+                  <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded-lg" onClick={handleLogout}>Logout</li>
                 </ul>
               </div>
             )}
