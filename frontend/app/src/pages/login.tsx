@@ -37,14 +37,14 @@ export default function Home() {
       <div className="absolute bottom-0 right-0">
       </div>
       <Head>
-        <title>Log In | My App</title>
+        <title>Iniciar Sesión | Mail Relay</title>
       </Head>
       <form
         className="z-10 rounded-lg bg-white p-10 shadow-md"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="mb-8 text-center text-2xl font-bold text-gray-800">
-          Log In
+          Iniciar Sesión
         </h2>
         <div className="mb-4">
           <label className="mb-2 block font-bold text-gray-700" htmlFor="username">
@@ -72,7 +72,7 @@ export default function Home() {
           className="w-full rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
           type="submit"
         >
-          Log In
+          Iniciar Sesión
         </button>
       </form>
     </div>
