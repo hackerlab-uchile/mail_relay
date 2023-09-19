@@ -17,7 +17,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Username already registered")
     if crud_users.get_user_by_recipient_email(db, recipient_email=user.recipient_email):
         raise HTTPException(status_code=400, detail="Email already registered")
-    db_user = User(username=user.username, password=get_password_hash(user.password), remember_token=user.remember_token, recipient_email=user.recipient_email)
+    db_user = User(username=user.username, password=get_password_hash(user.password), recipient_email=user.recipient_email)
     return crud_users.create_user(db=db, user=db_user)
 
 
