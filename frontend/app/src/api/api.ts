@@ -1,5 +1,5 @@
 import { LoginCredentials, LoginResponse } from "@/hooks/auth";
-import { Usuario } from "@/types/Usuario";
+import { Usuario, UsuarioCreate } from "@/types/Usuario";
 import apiClient from "@/utils/axios";
 
 
@@ -27,3 +27,9 @@ export async function getUsuarioToken(
       .get<Usuario>("/users/me")
       .then((response) => response.data);
   }
+
+  export async function signupUser(signupData: UsuarioCreate): Promise<Usuario> {
+    return apiClient
+        .post("/users/signup/", signupData)
+        .then((response) => response.data);
+}
