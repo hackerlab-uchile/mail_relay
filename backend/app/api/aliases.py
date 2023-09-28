@@ -19,7 +19,7 @@ def create_alias(alias: AliasBase, current_user: User = Depends(get_current_user
 def get_aliases_for_user(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     user_aliases = crud_aliases.get_aliases_by_user_id(db, current_user.id)
     if not user_aliases:
-        raise HTTPException(status_code=404, detail="No aliases found for this user.")
+        return []
     return user_aliases
 
 @router.get("/{alias_id}")

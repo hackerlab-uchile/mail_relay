@@ -57,7 +57,8 @@ def test_get_aliases_no_auth(test_client):
 # GET /aliases/ with authentication but no aliases
 def test_get_aliases_empty(authenticated_client):
     response = authenticated_client.get("/aliases/")
-    assert response.status_code == 404  # No aliases found
+    assert len(response.json()) == 0
+    assert response.status_code == 200  # No aliases found
 
 # Create an alias and then fetch it
 def test_get_aliases_with_data(authenticated_client, test_alias):
