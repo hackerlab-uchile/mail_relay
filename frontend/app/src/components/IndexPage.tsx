@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Toggle from './ui/toggle';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout, useUser } from "@/hooks/auth";
+import { getAliases } from '@/api/api';
+import { Alias } from '@/types/Alias';
 
 export default function IndexPage() {
-  const [aliases, setAliases] = useState([
-    { name: "alias1", active: true },
-    { name: "alias2", active: false },
-  ]);
+  const [aliases, setAliases] = useState<Alias[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -20,6 +19,20 @@ export default function IndexPage() {
   const handleLogout = () => {
     logoutMutation.mutate();
   };
+
+  useEffect(() => {
+    const fetchAliases = async () => {
+      try {
+        const data = await getAliases();
+        setAliases(data);
+      } catch (error) {
+        console.error("Error fetching aliases:", error);
+        // Handle the error accordingly
+      }
+    };
+    
+    fetchAliases();
+  }, []);
 
   const toggleAlias = (index: number) => {
     const newAliases = [...aliases];
@@ -83,7 +96,7 @@ export default function IndexPage() {
           <tbody>
             {aliases.map((alias, index) => (
               <tr key={index} className="hover:bg-gray-100">
-                <td className="px-6 py-4">{alias.name}</td>
+                <td className="px-6 py-4">{alias.email}</td>
                 <td className="px-6 py-4">
                   <Toggle isActive={alias.active} onToggle={() => toggleAlias(index)} />
                 </td>

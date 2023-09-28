@@ -1,5 +1,6 @@
 import { LoginCredentials, LoginResponse } from "@/hooks/auth";
 import { Usuario, UsuarioCreate } from "@/types/Usuario";
+import { Alias } from "@/types/Alias";
 import apiClient from "@/utils/axios";
 
 
@@ -32,4 +33,17 @@ export async function getUsuarioToken(
     return apiClient
         .post("/users/signup/", signupData)
         .then((response) => response.data);
+}
+
+export async function getAliases() {
+  try {
+    const response = await apiClient.get<Alias[]>("/aliases/");
+    return response.data;
+  } catch (error: any) {
+    if (error.response && error.response.status === 404) {
+      return [];
+    } else {
+      throw error;
+    }
+  }
 }

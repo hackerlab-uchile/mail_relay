@@ -26,6 +26,7 @@ export default function Home() {
   };
 
   const userQuery = useUser();
+  
   useEffect(() => {
     if (!userQuery.isLoading && userQuery.isSuccess) {
       router.push("/");
