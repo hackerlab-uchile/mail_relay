@@ -81,7 +81,7 @@ export default function IndexPage() {
         <div className="flex justify-between items-center mb-4">
           <input 
             type="text" 
-            placeholder="Search aliases..." 
+            placeholder="Buscar correos..." 
             className="p-2 rounded border"
           />
           <Button filled>Nuevo Correo</Button>
