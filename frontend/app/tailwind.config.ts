@@ -9,12 +9,12 @@ module.exports = {
         sans: ["Lato", ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: "#5E5384",
-        secondary: "#225497",
+        primary: "#16BAC5",
+        secondary: "#5FBFF9",
         background: {
-          light: "#FCFCFC",
-          DEFAULT: "#EFF0F6",
-          dark: "#D9DBE9",
+          light: "#EFE9F4",
+          DEFAULT: "#EFE9F4",
+          dark: "#171D1C",
         },
         font: {
           DEFAULT: "#111111",
