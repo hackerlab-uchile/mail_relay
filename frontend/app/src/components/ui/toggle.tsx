@@ -9,7 +9,7 @@ type ToggleProps = {
         <button 
           type="button"
           onClick={onToggle}
-          className={`relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline ${isActive ? 'bg-indigo-600' : 'bg-gray-200'}`}
+          className={`relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline ${isActive ? 'bg-green-600' : 'bg-gray-300'}`}
           aria-label="Toggle"
           role="switch"
         >

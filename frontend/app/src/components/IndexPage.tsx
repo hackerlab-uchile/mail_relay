@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import Toggle from './ui/toggle';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout, useUser } from "@/hooks/auth";
 import { getAliases } from '@/api/api';
 import { Alias } from '@/types/Alias';
+import Toggle from './ui/Toggle';
+import Button from './ui/Button';
 
 export default function IndexPage() {
   const [aliases, setAliases] = useState<Alias[]>([]);
@@ -84,6 +85,7 @@ export default function IndexPage() {
             className="p-2 rounded border"
           />
           <button className="bg-blue-500 text-white p-2 rounded">New Alias</button>
+          <Button filled>Nuevo Correo</Button>
         </div>
 
         <table className="min-w-full bg-white rounded-lg overflow-hidden">
