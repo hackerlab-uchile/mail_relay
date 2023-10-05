@@ -3,4 +3,10 @@ export interface Alias {
     email: string;
     active: boolean;
     user_id: number;
-  }
+}
+
+export interface AliasFormValues {
+    email: string;
+    active?: boolean;
+    comment?: string;
+}
