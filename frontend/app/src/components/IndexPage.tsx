@@ -8,7 +8,6 @@ import Button from './ui/Button';
 import AliasModal from './modals/AliasModal';
 
 export default function IndexPage() {
-  const [aliases, setAliases] = useState<Alias[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -22,30 +21,25 @@ export default function IndexPage() {
     logoutMutation.mutate();
   };
 
-  useEffect(() => {
-    const fetchAliases = async () => {
-      try {
-        const data = await getAliases();
-        const sortedAliases = data.sort((a, b) => a.id - b.id);
-        setAliases(sortedAliases);
-      } catch (error) {
-        console.error("Error fetching aliases:", error);
-      }
-    };
-    
-    fetchAliases();
-  }, []);
+  const aliasesQuery = useQuery<Alias[]>({
+    queryKey: ["aliases"],
+    queryFn: getAliases,
+  });
 
-  const toggleAlias = async (index: number) => {
-    try {
-      const newAliases = [...aliases];
-      newAliases[index].active = !newAliases[index].active;
-      await updateAlias(newAliases[index].id, { active: newAliases[index].active });
-      setAliases(newAliases);
-    } catch (error) {
-      console.error("Error toggling alias:", error);
-    }
-    
+  const toggleAliasMutation = useMutation((params: { aliasId: number, updatedAlias: Partial<Alias> }) => updateAlias(params.aliasId, params.updatedAlias), {
+    onSuccess: () => {
+      // Invalidate and refetch the aliases query
+      queryClient.invalidateQueries(["aliases"]);
+    },
+  });
+  
+  const toggleAlias = (alias: Alias) => {
+    toggleAliasMutation.mutate({
+      aliasId: alias.id,
+      updatedAlias: {
+        active: !alias.active
+      }
+    });
   };
 
   const userQuery = useUser();
@@ -91,7 +85,7 @@ export default function IndexPage() {
             placeholder="Buscar correos..." 
             className="p-2 rounded border"
           />
-          <AliasModal/>
+          <AliasModal queryClient={queryClient}/>
         </div>
 
         <table className="min-w-full bg-white rounded-lg overflow-hidden">
@@ -102,11 +96,11 @@ export default function IndexPage() {
             </tr>
           </thead>
           <tbody>
-            {aliases.map((alias, index) => (
+            {aliasesQuery.data?.sort((a, b) => a.id - b.id).map((alias, index) => (
               <tr key={index} className="hover:bg-background">
                 <td className="px-6 py-4">{alias.email}</td>
                 <td className="px-6 py-4">
-                  <Toggle isActive={alias.active} onToggle={() => toggleAlias(index)} />
+                  <Toggle isActive={alias.active} onToggle={() => toggleAlias(alias)} />
                 </td>
               </tr>
             ))}
