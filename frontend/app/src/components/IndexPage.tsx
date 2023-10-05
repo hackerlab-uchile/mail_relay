@@ -25,7 +25,8 @@ export default function IndexPage() {
     const fetchAliases = async () => {
       try {
         const data = await getAliases();
-        setAliases(data);
+        const sortedAliases = data.sort((a, b) => a.id - b.id);
+        setAliases(sortedAliases);
       } catch (error) {
         console.error("Error fetching aliases:", error);
         // Handle the error accordingly
