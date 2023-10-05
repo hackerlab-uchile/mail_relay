@@ -26,7 +26,7 @@ export default function Home() {
   };
 
   const userQuery = useUser();
-  
+
   useEffect(() => {
     if (!userQuery.isLoading && userQuery.isSuccess) {
       router.push("/");
@@ -35,8 +35,7 @@ export default function Home() {
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-primary">
-      <div className="absolute bottom-0 right-0">
-      </div>
+      <div className="absolute bottom-0 right-0"></div>
       <Head>
         <title>Iniciar Sesión | Mail Relay</title>
       </Head>
@@ -48,7 +47,10 @@ export default function Home() {
           Iniciar Sesión
         </h2>
         <div className="mb-4">
-          <label className="mb-2 block font-bold text-gray-700" htmlFor="username">
+          <label
+            className="mb-2 block font-bold text-gray-700"
+            htmlFor="username"
+          >
             Usuario
           </label>
           <input

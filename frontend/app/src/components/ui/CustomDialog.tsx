@@ -9,7 +9,7 @@ export default function CustomDialog(
     onClose: () => void;
     title?: string;
     width?: "md" | "lg" | "xl";
-  } & React.PropsWithChildren
+  } & React.PropsWithChildren,
 ) {
   const widthClassName = {
     md: "max-w-2xl",
@@ -50,7 +50,7 @@ export default function CustomDialog(
                 className={clsx(
                   widthClassName[props.width || "md"],
                   "w-full transform overflow-visible rounded-2xl bg-white",
-                  "py-6 px-8 align-middle shadow-xl transition-all"
+                  "py-6 px-8 align-middle shadow-xl transition-all",
                 )}
               >
                 <div className="mb-3 flex items-center justify-between">

@@ -38,7 +38,10 @@ export default function Signup() {
           Crear Cuenta
         </h2>
         <div className="mb-4">
-          <label className="mb-2 block font-bold text-gray-700" htmlFor="username">
+          <label
+            className="mb-2 block font-bold text-gray-700"
+            htmlFor="username"
+          >
             Usuario
           </label>
           <input
@@ -47,7 +50,10 @@ export default function Signup() {
           />
         </div>
         <div className="mb-4">
-          <label className="mb-2 block font-bold text-gray-700" htmlFor="recipient_email">
+          <label
+            className="mb-2 block font-bold text-gray-700"
+            htmlFor="recipient_email"
+          >
             Email
           </label>
           <input

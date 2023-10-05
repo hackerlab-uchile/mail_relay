@@ -1,6 +1,6 @@
-import AuthProtected from "@/components/auth/AuthProtected"
+import AuthProtected from "@/components/auth/AuthProtected";
 import Head from "next/head";
-import IndexPage from "@/components/IndexPage"
+import IndexPage from "@/components/IndexPage";
 
 export default function Home() {
   return (

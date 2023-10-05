@@ -24,7 +24,7 @@ export default function Button(props: ButtonProps) {
         clear ? "border-none" : "border-2",
         filled ? "bg-primary text-white" : "text-primary",
         disabled && "opacity-50",
-        props.className
+        props.className,
       )}
     >
       {loading && props.children ? (
