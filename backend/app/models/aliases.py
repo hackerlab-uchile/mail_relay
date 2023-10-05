@@ -16,3 +16,7 @@ class Alias(Base):
 class AliasBase(BaseModel):
     email: str
     active: Optional[bool] = True
+
+class AliasUpdate(AliasBase):
+    email: str | None = None
+    active: Optional[bool] = None

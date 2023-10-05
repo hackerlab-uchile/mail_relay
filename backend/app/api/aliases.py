@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.core.database import get_db
-from app.models.aliases import AliasBase, Alias
+from app.models.aliases import AliasBase, Alias, AliasUpdate
 from app.models.users import User
 from app.core.security import get_current_user
 from app.crud import crud_aliases
@@ -32,7 +32,7 @@ def get_specific_alias(alias_id: int, current_user: User = Depends(get_current_u
     return db_alias
 
 @router.put("/{alias_id}")
-def update_specific_alias(alias: AliasBase, alias_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def update_specific_alias(alias: AliasUpdate, alias_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     db_alias = crud_aliases.get_alias_by_id(db, alias_id)
     if not db_alias:
         raise HTTPException(status_code=404, detail="Alias not found.")
