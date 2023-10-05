@@ -1,6 +1,6 @@
 import { LoginCredentials, LoginResponse } from "@/hooks/auth";
 import { Usuario, UsuarioCreate } from "@/types/Usuario";
-import { Alias } from "@/types/Alias";
+import { Alias, AliasFormValues } from "@/types/Alias";
 import apiClient from "@/utils/axios";
 
 
@@ -53,3 +53,8 @@ export async function updateAlias(aliasId: number, updatedAlias: Partial<Alias>)
     .put<Alias>(`/aliases/${aliasId}`, updatedAlias)
     .then((response) => response.data);
 }
+
+export async function createAlias(alias: AliasFormValues) {
+  return apiClient.post("/aliases/", alias).then((response) => response.data);
+}
+
