@@ -47,3 +47,9 @@ export async function getAliases() {
     }
   }
 }
+
+export async function updateAlias(aliasId: number, updatedAlias: Partial<Alias>): Promise<Alias> {
+  return await apiClient
+    .put<Alias>(`/aliases/${aliasId}`, updatedAlias)
+    .then((response) => response.data);
+}

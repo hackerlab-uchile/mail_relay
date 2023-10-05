@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout, useUser } from "@/hooks/auth";
-import { getAliases } from '@/api/api';
+import { getAliases, updateAlias } from '@/api/api';
 import { Alias } from '@/types/Alias';
 import Toggle from './ui/Toggle';
 import Button from './ui/Button';
@@ -35,10 +35,16 @@ export default function IndexPage() {
     fetchAliases();
   }, []);
 
-  const toggleAlias = (index: number) => {
-    const newAliases = [...aliases];
-    newAliases[index].active = !newAliases[index].active;
-    setAliases(newAliases);
+  const toggleAlias = async (index: number) => {
+    try {
+      const newAliases = [...aliases];
+      newAliases[index].active = !newAliases[index].active;
+      await updateAlias(newAliases[index].id, { active: newAliases[index].active });
+      setAliases(newAliases);
+    } catch (error) {
+      console.error("Error toggling alias:", error);
+    }
+    
   };
 
   const userQuery = useUser();
