@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { logout, useUser } from "@/hooks/auth";
 import { getAliases, updateAlias } from '@/api/api';
 import { Alias } from '@/types/Alias';
 import Toggle from './ui/Toggle';
 import Button from './ui/Button';
+import AliasModal from './modals/AliasModal';
 
 export default function IndexPage() {
   const [aliases, setAliases] = useState<Alias[]>([]);
@@ -29,7 +30,6 @@ export default function IndexPage() {
         setAliases(sortedAliases);
       } catch (error) {
         console.error("Error fetching aliases:", error);
-        // Handle the error accordingly
       }
     };
     
@@ -91,7 +91,7 @@ export default function IndexPage() {
             placeholder="Buscar correos..." 
             className="p-2 rounded border"
           />
-          <Button filled>Nuevo Correo</Button>
+          <AliasModal/>
         </div>
 
         <table className="min-w-full bg-white rounded-lg overflow-hidden">
