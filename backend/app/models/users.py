@@ -1,7 +1,8 @@
 from app.core.database import Base
-from sqlalchemy.orm import Mapped, mapped_column 
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String
 from pydantic import BaseModel
+
 
 class User(Base):
     __tablename__ = "users"
@@ -11,10 +12,12 @@ class User(Base):
     password: Mapped[str] = mapped_column(String(255))
     recipient_email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
 
-#PYDANTIC
+
+# PYDANTIC
 class UserBase(BaseModel):
     username: str
     recipient_email: str
+
 
 class UserCreate(UserBase):
     password: str

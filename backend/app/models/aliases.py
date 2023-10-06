@@ -4,6 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from typing import Optional
 from pydantic import BaseModel
 
+
 class Alias(Base):
     __tablename__ = "aliases"
 
@@ -12,10 +13,12 @@ class Alias(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
 
-#PYDANTIC
+
+# PYDANTIC
 class AliasBase(BaseModel):
     email: str
     active: Optional[bool] = True
+
 
 class AliasUpdate(AliasBase):
     email: str | None = None

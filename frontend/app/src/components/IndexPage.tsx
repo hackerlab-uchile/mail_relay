@@ -34,7 +34,7 @@ export default function IndexPage() {
         // Invalidate and refetch the aliases query
         queryClient.invalidateQueries(["aliases"]);
       },
-    },
+    }
   );
 
   const toggleAlias = (alias: Alias) => {

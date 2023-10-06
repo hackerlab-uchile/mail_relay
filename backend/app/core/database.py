@@ -7,6 +7,7 @@ test_engine = create_engine(TEST_DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(engine)
 TestSessionLocal = sessionmaker(test_engine)
 
+
 # Dependency to get the database session
 def get_db():
     db = SessionLocal()
@@ -15,12 +16,14 @@ def get_db():
     finally:
         db.close()
 
+
 def get_test_db():
     db = TestSessionLocal()
     try:
         yield db
     finally:
         db.close()
+
 
 class Base(DeclarativeBase):
     pass
