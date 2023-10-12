@@ -5,6 +5,7 @@ let BACKEND_PORT = process.env.NEXT_PUBLIC_BACKEND_PORT || "8000";
 let PROD = process.env.PROD || false;
 
 let base_url = PROD ? BACKEND_HOST : `${BACKEND_HOST}:${BACKEND_PORT}`;
+console.log("Production mode", PROD);
 console.log("backend:base_url", base_url);
 
 const apiClient = axios.create({
