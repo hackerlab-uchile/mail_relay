@@ -2,10 +2,10 @@
 
 ## Getting started
 
-* Clone repo
-* Set env variables (TODO: Add description on all variables)
-* Run `docker compose up`
-
+- Clone repo
+- Set env variables (TODO: Add description on all variables)
+- Run `docker compose up`
+- on the backend container run `python app/init_db.py` to initialize the table creation
 
 ### Project Structure Explanation:
 
