@@ -2,7 +2,7 @@ import axios, { HeadersDefaults } from "axios";
 
 let BACKEND_HOST = process.env.NEXT_PUBLIC_BACKEND_HOST || "http://localhost";
 let BACKEND_PORT = process.env.NEXT_PUBLIC_BACKEND_PORT || "8000";
-let PROD = process.env.PROD || false;
+let PROD = process.env.NEXT_PUBLIC_PROD || false;
 
 let base_url = PROD ? BACKEND_HOST : `${BACKEND_HOST}:${BACKEND_PORT}`;
 console.log("Production mode", PROD);
