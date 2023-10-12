@@ -4,3 +4,5 @@ __pycache__/
 .pytext_cache/
 .coverage
 /node_modules/
+caddy/config/caddy/autosave.json
+caddy/config/caddy/Caddyfile.autosave
