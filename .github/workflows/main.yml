@@ -2,23 +2,23 @@ name: Dockerized Python CI
 
 on:
   push:
-    branches: [ main ]
+    branches: "*"
   pull_request:
-    branches: [ main ]
+    branches: "*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Build Docker image
-      run: docker build -t my-docker-image ./backend
+      - name: Build Docker image
+        run: docker build -t my-docker-image ./backend
 
-    - name: Build and Run tests with Docker Compose
-      run: docker-compose up -d backend db
+      - name: Build and Run tests with Docker Compose
+        run: docker-compose up -d backend db
 
-    - name: Run tests
-      run: docker-compose exec -T backend pytest app/tests/
+      - name: Run tests
+        run: docker-compose exec -T backend pytest app/tests/
