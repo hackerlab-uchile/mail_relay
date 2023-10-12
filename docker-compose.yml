@@ -66,6 +66,8 @@ services:
 
   postfix:
     image: catatnight/postfix
+    networks:
+      - internal
     env_file:
       - .env
 
@@ -75,6 +77,5 @@ volumes:
   caddy_config:
 
 networks:
-  proxy:
-    external: true
+  caddy:
   internal:
