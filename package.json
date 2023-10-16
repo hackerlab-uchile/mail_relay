@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "notistack": "^3.0.1",
     "react-hook-form": "^7.46.1"
   }
 }
