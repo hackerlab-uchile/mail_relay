@@ -63,11 +63,16 @@ services:
 
 
   postfix:
-    image: catatnight/postfix
-    networks:
-      - internal
-    env_file:
-      - .env
+  image: boky/postfix
+  networks:
+    - internal
+  env_file:
+    - .env
+  volumes:
+    - ./postfix-config:/etc/postfix
+  ports:
+    - "25:25"
+
 
 volumes:
   postgres_data:

@@ -1,0 +1,2 @@
+aliaspipe   unix  -       n       n       -       -       pipe
+  flags=R user=alias argv=/path/to/your/script.py ${sender} ${recipient}

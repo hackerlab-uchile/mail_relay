@@ -1,0 +1,2 @@
+alias_maps = hash:/etc/postfix/aliases
+transport_maps = hash:/etc/postfix/transport
