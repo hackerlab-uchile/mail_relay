@@ -4,3 +4,4 @@ __pycache__/
 .pytext_cache/
 .coverage
 /node_modules/
+caddy/*

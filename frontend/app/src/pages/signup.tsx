@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signupUser } from "@/api/api";
+import { SnackbarProvider, enqueueSnackbar, useSnackbar } from "notistack";
 
 type SignupInputs = {
   username: string;
@@ -18,6 +19,17 @@ export default function Signup() {
   const signupMutation = useMutation(signupUser, {
     onSuccess: () => {
       router.push("/login");
+      enqueueSnackbar("La cuenta se creó correctamente", {
+        variant: "success",
+        preventDuplicate: true,
+        autoHideDuration: 3000,
+      });
+    },
+    onError: (error) => {
+      enqueueSnackbar("Error en la creación de cuenta", {
+        variant: "error",
+        autoHideDuration: 3000,
+      });
     },
   });
 

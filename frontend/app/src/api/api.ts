@@ -8,7 +8,7 @@ export async function getUsuarioToken(
 ): Promise<LoginResponse> {
   return apiClient
     .post<LoginResponse>(
-      "/users/signin",
+      "/users/signin/",
       {
         username: credentials.username,
         password: credentials.password,
@@ -24,7 +24,7 @@ export async function getUsuarioToken(
 
 export async function getCurrentUsuario(): Promise<Usuario> {
   return await apiClient
-    .get<Usuario>("/users/me")
+    .get<Usuario>("/users/me/")
     .then((response) => response.data);
 }
 

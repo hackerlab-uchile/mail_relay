@@ -1,4 +1,5 @@
 import Toggle from "@/components/ui/Toggle";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import { useState } from "react";
 
 export default function IndexPage() {
@@ -30,6 +31,12 @@ export default function IndexPage() {
             />
             <button className="bg-blue-500 text-white p-2 rounded">
               New Alias
+            </button>
+            <button
+              className="bg-blue-500 text-white p-2 rounded"
+              onClick={() => enqueueSnackbar("That was easy!")}
+            >
+              Show snackbar
             </button>
           </div>
           <div className="flex items-center">
@@ -109,6 +116,7 @@ export default function IndexPage() {
             ))}
           </tbody>
         </table>
+        <SnackbarProvider className="" />
       </main>
     </div>
   );

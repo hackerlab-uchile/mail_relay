@@ -1,15 +1,36 @@
 services:
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - caddy
+    labels:
+      caddy.key_type: rsa4096
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    restart: unless-stopped
+  
   backend:
     build: ./backend
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --forwarded-allow-ips '*'
     volumes:
       - ./backend:/app
+    networks:
+      - caddy
+      - internal
     ports:
       - 8000:8000
     depends_on:
       - db
     env_file:
       - .env
+    labels:
+      caddy: "api.mailproxy.hxr.cl"
+      caddy.reverse_proxy: "{{upstreams 8000}}"
 
   frontend:
     build: ./frontend
@@ -17,28 +38,42 @@ services:
     volumes:
       - ./frontend/app:/app
       - /app/node_modules
+    networks:
+      - caddy
+      - internal
     ports:
       - 3000:3000
     depends_on:
       - backend
     env_file:
       - .env
+    labels:
+      caddy: "mailproxy.hxr.cl"
+      caddy.reverse_proxy: "{{upstreams 3000}}"
 
   db:
     image: postgres
-    ports:
-      - 5432:5432
+    networks:
+      - internal
     env_file:
       - .env
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data
       - ./db-init-scripts:/docker-entrypoint-initdb.d/
 
 
   postfix:
     image: catatnight/postfix
+    networks:
+      - internal
     env_file:
       - .env
 
 volumes:
   postgres_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  caddy:
+  internal:

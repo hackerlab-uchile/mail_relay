@@ -2,9 +2,11 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Link from "next/link"; // Import Link from next/link
 import { login, useUser } from "@/hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
 
 type Inputs = {
   username: string;
@@ -17,6 +19,20 @@ export default function Home() {
   const loginMutation = useMutation(login, {
     onSettled: () => {
       queryClient.invalidateQueries(["usuario", "me"]);
+    },
+    onError: (error: any) => {
+      enqueueSnackbar("Credenciales inválidas", {
+        variant: "error",
+        preventDuplicate: true,
+        autoHideDuration: 3000,
+      });
+    },
+    onSuccess: () => {
+      enqueueSnackbar("Inicio de Sesión Correcto", {
+        variant: "success",
+        preventDuplicate: true,
+        autoHideDuration: 3000,
+      });
     },
   });
   const { register, handleSubmit } = useForm<Inputs>();
@@ -77,6 +93,14 @@ export default function Home() {
         >
           Iniciar Sesión
         </button>
+        <div className="mt-4 text-center">
+          <p>
+            ¿Aún no tienes cuenta?{" "}
+            <Link className="text-blue-700" href="/signup">
+              Regístrate
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
