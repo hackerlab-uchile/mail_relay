@@ -63,15 +63,15 @@ services:
 
 
   postfix:
-  image: boky/postfix
-  networks:
-    - internal
-  env_file:
-    - .env
-  volumes:
-    - ./postfix-config:/etc/postfix
-  ports:
-    - "25:25"
+    image: boky/postfix
+    networks:
+      - internal
+    env_file:
+      - .env
+    volumes:
+      - ./postfix-config:/etc/postfix
+    ports:
+      - "25:25"
 
 
 volumes:
