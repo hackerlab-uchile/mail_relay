@@ -648,56 +648,38 @@ debugger_command =
 # sendmail_path: The full pathname of the Postfix sendmail command.
 # This is the Sendmail-compatible mail posting interface.
 # 
-sendmail_path = /usr/sbin/sendmail
+sendmail_path =
 
 # newaliases_path: The full pathname of the Postfix newaliases command.
 # This is the Sendmail-compatible command to build alias databases.
 #
-newaliases_path = /usr/bin/newaliases
+newaliases_path =
 
 # mailq_path: The full pathname of the Postfix mailq command.  This
 # is the Sendmail-compatible mail queue listing command.
 # 
-mailq_path = /usr/bin/mailq
+mailq_path =
 
 # setgid_group: The group for mail submission and queue management
 # commands.  This must be a group name with a numerical group ID that
 # is not shared with other accounts, not even with the Postfix account.
 #
-setgid_group = postdrop
+setgid_group =
 
 # html_directory: The location of the Postfix HTML documentation.
 #
-html_directory = no
+html_directory =
 
 # manpage_directory: The location of the Postfix on-line manual pages.
 #
-manpage_directory = /usr/share/man
+manpage_directory =
 
 # sample_directory: The location of the Postfix sample configuration files.
 # This parameter is obsolete as of Postfix 2.1.
 #
-sample_directory = /etc/postfix
+sample_directory =
 
 # readme_directory: The location of the Postfix README files.
 #
-readme_directory = /usr/share/doc/postfix/readme
+readme_directory =
 inet_protocols = ipv4
-meta_directory = /etc/postfix
-shlib_directory = /usr/lib/postfix
-smtputf8_enable = no
-mydestination = 
-relay_domains = 
-header_size_limit = 4096000
-smtpd_delay_reject = yes
-smtpd_helo_required = yes
-smtpd_client_restrictions = permit_mynetworks,reject
-smtpd_helo_restrictions = permit_mynetworks,reject_invalid_helo_hostname,permit
-smtpd_sender_restrictions = permit_mynetworks,reject
-smtp_sasl_mechanism_filter = digestmd5,ntlm,crammd5,plain,login,anonymous
-smtpd_recipient_restrictions = reject_non_fqdn_recipient, reject_unknown_recipient_domain, check_sender_access lmdb:/etc/postfix/allowed_senders,  reject
-smtpd_relay_restrictions = permit
-message_size_limit = 0
-myhostname = cd27627a19f8
-mynetworks = 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-smtp_tls_security_level = may

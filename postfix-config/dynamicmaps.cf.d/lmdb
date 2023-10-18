@@ -1,0 +1,1 @@
+lmdb	postfix-lmdb.so	dict_lmdb_open	mkmap_lmdb_open
