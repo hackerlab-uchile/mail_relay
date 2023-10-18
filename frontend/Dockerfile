@@ -15,6 +15,7 @@ EXPOSE 3000
 
 # Copy the entrypoint script into the container
 COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x entrypoint.sh
 # Set the entrypoint script as the default command
 CMD ["/entrypoint.sh"]
 # Start the frontend development server
