@@ -16,7 +16,6 @@ services:
   
   backend:
     build: ./backend
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --forwarded-allow-ips '*'
     volumes:
       - ./backend:/app
     networks:
@@ -34,7 +33,7 @@ services:
 
   frontend:
     build: ./frontend
-    command: npm run dev
+    # command: npm run dev
     volumes:
       - ./frontend/app:/app
       - /app/node_modules

@@ -698,6 +698,6 @@ smtp_sasl_mechanism_filter = digestmd5,ntlm,crammd5,plain,login,anonymous
 smtpd_recipient_restrictions = reject_non_fqdn_recipient, reject_unknown_recipient_domain, check_sender_access lmdb:/etc/postfix/allowed_senders,  reject
 smtpd_relay_restrictions = permit
 message_size_limit = 0
-myhostname = cd27627a19f8
+myhostname = 758f1d2dfcd5
 mynetworks = 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 smtp_tls_security_level = may

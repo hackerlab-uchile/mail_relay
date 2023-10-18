@@ -14,5 +14,8 @@ EXPOSE 8000
 
 ENV PYTHONPATH=/app:$PYTHONPATH
 
-# Run app.py when the container launches
-CMD ["uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"]
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+COPY ./entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]
