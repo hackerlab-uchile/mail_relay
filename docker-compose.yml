@@ -71,7 +71,7 @@ services:
     volumes:
       - ./postfix-config:/etc/postfix
     ports:
-      - 25:25
+      - 25:587
 
 
 volumes:
