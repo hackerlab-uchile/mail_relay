@@ -13,5 +13,9 @@ RUN npm install
 # Make port 3000 available to the world outside this container
 EXPOSE 3000
 
+# Copy the entrypoint script into the container
+COPY ./entrypoint.sh /entrypoint.sh
+# Set the entrypoint script as the default command
+CMD ["/entrypoint.sh"]
 # Start the frontend development server
-CMD ["npm", "start-watch"]
+#CMD ["npm", "start-watch"]
