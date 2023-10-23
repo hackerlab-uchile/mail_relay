@@ -1,0 +1,5 @@
+hosts = db
+user = postgres
+password = postgres
+dbname = postgres
+query = SELECT users.recipient_email FROM aliases JOIN users ON aliases.user_id = users.id WHERE aliases.email='%s' AND aliases.active=true;

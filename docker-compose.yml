@@ -62,13 +62,15 @@ services:
 
 
   postfix:
-    image: boky/postfix
+    #image: boky/postfix
+    build: ./postfix
     networks:
       - internal
     env_file:
       - .env
     volumes:
       - ./postfix-config:/etc/postfix
+      - ./postfix/init-scripts:/docker-init.db/
     ports:
       - 25:587
 
