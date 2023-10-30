@@ -1,5 +1,5 @@
 hosts = db
-user = postgres
-password = postgres
-dbname = postgres
+user = ${POSTGRES_USER}
+password = ${POSTGRES_PASSWORD}
+dbname = ${POSTGRES_DB}
 query = SELECT users.recipient_email FROM aliases JOIN users ON aliases.user_id = users.id WHERE aliases.email='%s' AND aliases.active=true;

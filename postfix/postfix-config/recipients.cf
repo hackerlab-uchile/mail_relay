@@ -1,5 +1,0 @@
-hosts = db
-user = postgres
-password = postgres
-dbname = postgres
-query = SELECT CASE WHEN EXISTS (SELECT 1 FROM aliases WHERE email='%s') THEN 'OK' ELSE 'REJECT' END;
