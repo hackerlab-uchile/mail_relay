@@ -15,7 +15,6 @@ postfix/postfix-config/generic
 postfix/postfix-config/header_checks
 postfix/postfix-config/main.cf
 postfix/postfix-config/main.cf.proto
-postfix/postfix-config/master.cf
 postfix/postfix-config/master.cf.proto
 postfix/postfix-config/postfix-files
 postfix/postfix-config/recipients.cf.lmdb
@@ -24,3 +23,6 @@ postfix/postfix-config/transport
 postfix/postfix-config/virtual
 postfix/postfix-config/virtual.cf.lmdb
 postfix/postfix-config/dynamicmaps.cf.d/pgsql
+postfix/postfix-config/master.cf
+postfix/postfix-config/recipients.cf
+postfix/postfix-config/virtual.cf
