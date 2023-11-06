@@ -41,10 +41,21 @@ def extract_queued_email(line):
 
 
 def extract_failed_email(line):
-    pattern = r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}).*postfix/smtpd\[\d+\]: NOQUEUE: reject:.*from=<([^>]+)> to=<([^>]+)> proto=ESMTP helo=<[^>]+>: (550 5.1.1 .*: User unknown in virtual alias table|554 5.7.1 .*: Recipient address rejected: Access denied);"
+    pattern = (
+        r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}).*postfix/smtpd\[\d+\]: NOQUEUE: reject: "
+        r"RCPT from .*: (\d{3} \d\.\d\.\d) <([^>]+)>: Recipient address rejected: "
+        r"(User unknown in virtual alias table|Access denied); from=<([^>]+)> to=<([^>]+)>"
+    )
     match = re.search(pattern, line)
     if match:
-        timestamp, from_address, to_address, error_message = match.groups()
+        (
+            timestamp,
+            error_code,
+            rejected_address,
+            error_message,
+            from_address,
+            to_address,
+        ) = match.groups()
         reason = (
             "Disabled"
             if "User unknown in virtual alias table" in error_message
