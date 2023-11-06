@@ -26,3 +26,4 @@ postfix/postfix-config/dynamicmaps.cf.d/pgsql
 postfix/postfix-config/master.cf
 postfix/postfix-config/recipients.cf
 postfix/postfix-config/virtual.cf
+postfix.log

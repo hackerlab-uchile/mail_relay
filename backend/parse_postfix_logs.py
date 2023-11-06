@@ -5,65 +5,82 @@ from app.models.correct_deliveries import CorrectDelivery
 from app.models.failed_deliveries import FailedDelivery
 from app.core.database import get_db
 
-LOG_FILE_PATH = "/path/to/your/postfix.log"
+LOG_FILE_PATH = "logs/postfix.log"
 
 
-def parse_log_line(line):
-    timestamp = extract_timestamp(line)
+def parse_log_lines(lines):
+    queued_emails = {}
 
-    if "status=sent" in line:
-        from_address, to_address = extract_addresses(line)
-        return CorrectDelivery(
-            timestamp=timestamp,
-            from_address=from_address,
-            to_address=to_address,
-            status="Sent",
+    for line in lines:
+        if "postfix/qmgr" in line:
+            queued_email = extract_queued_email(line)
+            if queued_email:
+                queued_emails[queued_email["id"]] = queued_email
+
+        elif "postfix/smtp" in line and "status=sent" in line:
+            sent_email = extract_sent_email(line, queued_emails)
+            if sent_email:
+                yield CorrectDelivery(**sent_email)
+
+        elif "postfix/smtpd" in line and "reject:" in line:
+            failed_email = extract_failed_email(line)
+            if failed_email:
+                yield FailedDelivery(**failed_email)
+
+
+def extract_queued_email(line):
+    pattern = r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}).*postfix/qmgr\[\d+\]: (\w+): from=<([^>]+)>,"
+    match = re.search(pattern, line)
+    if match:
+        timestamp, email_id, from_address = match.groups()
+        return {
+            "id": email_id,
+            "from_address": from_address,
+            "timestamp": datetime.datetime.fromisoformat(timestamp),
+        }
+
+
+def extract_failed_email(line):
+    pattern = r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}).*postfix/smtpd\[\d+\]: NOQUEUE: reject:.*from=<([^>]+)> to=<([^>]+)> proto=ESMTP helo=<[^>]+>: (550 5.1.1 .*: User unknown in virtual alias table|554 5.7.1 .*: Recipient address rejected: Access denied);"
+    match = re.search(pattern, line)
+    if match:
+        timestamp, from_address, to_address, error_message = match.groups()
+        reason = (
+            "Disabled"
+            if "User unknown in virtual alias table" in error_message
+            else "Does Not Exist"
         )
-
-    if "reject:" in line:
-        from_address, to_address, reason = extract_rejection_data(line)
-        return FailedDelivery(
-            timestamp=timestamp,
-            from_address=from_address,
-            to_address=to_address,
-            status="Rejected",
-            reason=reason,
-        )
+        return {
+            "timestamp": datetime.datetime.fromisoformat(timestamp),
+            "from_address": from_address,
+            "to_address": to_address,
+            "status": "Rejected",
+            "reason": reason,
+        }
 
 
-def extract_timestamp(line):
-    match = re.search(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}", line)
-    return datetime.datetime.fromisoformat(match.group()) if match else None
-
-
-def extract_addresses(line):
-    from_match = re.search(r"from=<([^>]+)>", line)
-    to_match = re.search(r"to=<([^>]+)>", line)
-    return (
-        from_match.group(1) if from_match else None,
-        to_match.group(1) if to_match else None,
-    )
-
-
-def extract_rejection_data(line):
-    from_address, to_address = extract_addresses(line)
-    reason_match = re.search(
-        r"reject: RCPT from [^:]+: \d{3} [\d.]+ <[^>]+>: (.+); from=", line
-    )
-    reason = reason_match.group(1) if reason_match else "Unknown reason"
-    return from_address, to_address, reason
+def extract_sent_email(line, queued_emails):
+    pattern = r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}).*postfix/smtp\[\d+\]: (\w+): to=<([^>]+)>, orig_to=<([^>]+)>,"
+    match = re.search(pattern, line)
+    if match:
+        timestamp, email_id, to_address, orig_to = match.groups()
+        if email_id in queued_emails:
+            queued_email = queued_emails[email_id]
+            return {
+                "timestamp": queued_email["timestamp"],
+                "from_address": queued_email["from_address"],
+                "to_address": orig_to,
+                "status": "Sent",
+            }
 
 
 def process_log_file():
     with open(LOG_FILE_PATH, "r+") as file:
         lines = file.readlines()
         db = next(get_db())
-        for line in lines:
-            record = parse_log_line(line)
-            if record:
-                db.add(record)
+        for record in parse_log_lines(lines):
+            db.add(record)
         db.commit()
-        # Truncate the file after processing
         file.truncate(0)
 
 
