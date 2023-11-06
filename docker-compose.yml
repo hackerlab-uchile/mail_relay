@@ -71,6 +71,8 @@ services:
     volumes:
       - ./postfix/postfix-config:/etc/postfix
       - ./postfix/init-scripts:/docker-init.db/
+      - ./postfix/rsyslog.d:/etc/rsyslog.d
+
     ports:
       - 25:587
 
