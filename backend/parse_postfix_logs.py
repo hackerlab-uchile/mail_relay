@@ -5,7 +5,7 @@ from app.models.correct_deliveries import CorrectDelivery
 from app.models.failed_deliveries import FailedDelivery
 from app.core.database import get_db
 
-LOG_FILE_PATH = "logs/postfix.log"
+LOG_FILE_PATH = "/app/logs/postfix.log"
 
 
 def parse_log_lines(lines):

@@ -9,6 +9,9 @@ ADD . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install cron
+RUN apt-get update && apt-get install -y cron
+
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
