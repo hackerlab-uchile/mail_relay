@@ -18,7 +18,7 @@ services:
     build: ./backend
     volumes:
       - ./backend:/app
-      - postfix_logs:/app/logs
+      - ./postfix/logs:/app/logs
     networks:
       - caddy
       - internal
@@ -73,8 +73,7 @@ services:
       - ./postfix/postfix-config:/etc/postfix
       - ./postfix/init-scripts:/docker-init.db/
       - ./postfix/rsyslog.d:/etc/rsyslog.d
-      # - ./postfix/logs:/var/log
-      - postfix_logs:/var/log
+      - ./postfix/logs:/var/log
 
     ports:
       - 25:587
@@ -84,7 +83,6 @@ volumes:
   postgres_data:
   caddy_data:
   caddy_config:
-  postfix_logs:
 
 networks:
   caddy:
