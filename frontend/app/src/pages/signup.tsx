@@ -14,8 +14,7 @@ type SignupInputs = {
   turnstileToken?: string;
 };
 
-let CLOUDFLARE_SITE_KEY =
-  process.env.NEXT_PUBLIC_CLOUDFLARE_SITE_KEY || "1x00000000000000000000AA";
+let CLOUDFLARE_SITE_KEY = process.env.NEXT_CLOUDFLARE_SITE_KEY;
 
 export default function Signup() {
   const router = useRouter();
