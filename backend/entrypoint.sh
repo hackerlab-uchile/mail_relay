@@ -12,8 +12,8 @@ printenv > /etc/default/locale
 # Write out current crontab
 crontab -l > mycron
 
-# Echo new cron into cron file
-echo "0 * * * * . /etc/default/locale; /usr/local/bin/python /app/parse_postfix_logs.py >> /var/log/parse_postfix_logs.log 2>&1" >> mycron
+# Cron job to send output to Docker container logs
+echo "0 * * * * . /etc/default/locale; echo 'Cron job started at $(date)' >> /proc/1/fd/1; /usr/local/bin/python /app/parse_postfix_logs.py >> /proc/1/fd/1 2>> /proc/1/fd/2; echo 'Cron job ended at $(date)' >> /proc/1/fd/1" >> mycron
 
 
 # Install new cron file
