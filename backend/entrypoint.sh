@@ -13,7 +13,7 @@ printenv > /etc/default/locale
 crontab -l > mycron
 
 # Echo new cron into cron file
-echo "* * * * * . /etc/default/locale; /usr/local/bin/python /app/parse_postfix_logs.py >> /var/log/parse_postfix_logs.log 2>&1" >> mycron
+echo "0 * * * * . /etc/default/locale; /usr/local/bin/python /app/parse_postfix_logs.py >> /var/log/parse_postfix_logs.log 2>&1" >> mycron
 
 
 # Install new cron file
