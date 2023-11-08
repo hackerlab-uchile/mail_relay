@@ -1,16 +1,37 @@
 from sqlalchemy.orm import Session
 from app.models.aliases import Alias
+from random import choice, randint
+from sqlalchemy.exc import IntegrityError
 
 
-def create_alias(db: Session, alias: Alias):
-    db.add(alias)
-    db.commit()
-    db.refresh(alias)
-    return alias
+def generate_random_alias():
+    animals = ["lion", "tiger", "bear", "eagle", "shark"]
+    adjectives = ["swift", "mighty", "brave", "sly", "quick"]
+    number = randint(0, 999)
+    return f"{choice(adjectives)}.{choice(animals)}.{number}"
+
+
+def create_alias(db: Session, user_id: int, active: bool = True):
+    attempts = 0
+    while attempts < 5:
+        unique_alias_email = generate_random_alias()
+        new_alias = Alias(user_id=user_id, email=unique_alias_email, active=active)
+        try:
+            db.add(new_alias)
+            db.commit()
+            db.refresh(new_alias)
+            return new_alias
+        except IntegrityError:
+            db.rollback()
+            attempts += 1
+
+    raise Exception("Failed to generate a unique alias after several attempts.")
 
 
 def get_aliases_by_user_id(db: Session, user_id: int):
-    return db.query(Alias).filter(Alias.user_id == user_id).all()
+    return (
+        db.query(Alias).filter(Alias.user_id == user_id and not Alias.is_deleted).all()
+    )
 
 
 def get_alias_by_email(db: Session, email: str):
@@ -28,8 +49,6 @@ def get_alias_by_id(db: Session, alias_id: int):
 
 def update_alias(db: Session, alias_id: int, alias_update_data):
     db_alias = db.query(Alias).filter(Alias.id == alias_id).first()
-    if alias_update_data.email:
-        db_alias.email = alias_update_data.email
     if alias_update_data.active != None:
         db_alias.active = alias_update_data.active
     db.commit()
@@ -39,6 +58,6 @@ def update_alias(db: Session, alias_id: int, alias_update_data):
 
 def delete_alias(db: Session, alias_id: int):
     db_alias = db.query(Alias).filter(Alias.id == alias_id).first()
-    db.delete(db_alias)
+    db_alias.is_deleted = True
     db.commit()
     return {"message": "Alias deleted."}
