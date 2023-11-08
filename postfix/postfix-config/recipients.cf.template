@@ -1,0 +1,5 @@
+hosts = db
+user = ${POSTGRES_USER}
+password = ${POSTGRES_PASSWORD}
+dbname = ${POSTGRES_DB}
+query = SELECT CASE WHEN EXISTS (SELECT 1 FROM aliases WHERE email='%s') THEN 'OK' ELSE 'REJECT' END;

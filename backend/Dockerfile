@@ -9,10 +9,17 @@ ADD . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install cron
+RUN apt-get update && apt-get install -y cron
+
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
 ENV PYTHONPATH=/app:$PYTHONPATH
 
-# Run app.py when the container launches
-CMD ["uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"]
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+CMD ["/entrypoint.sh"]

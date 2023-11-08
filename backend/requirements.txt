@@ -10,3 +10,4 @@ python-multipart
 pytest
 pytest-cov
 httpx
+requests

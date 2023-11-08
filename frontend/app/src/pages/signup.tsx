@@ -4,17 +4,23 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signupUser } from "@/api/api";
 import { SnackbarProvider, enqueueSnackbar, useSnackbar } from "notistack";
+import Script from "next/script";
+import { UsuarioCreate } from "@/types/Usuario";
 
 type SignupInputs = {
   username: string;
   recipient_email: string;
   password: string;
+  turnstileToken?: string;
 };
+
+let CLOUDFLARE_SITE_KEY = process.env.NEXT_CLOUDFLARE_SITE_KEY;
 
 export default function Signup() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { register, handleSubmit } = useForm<SignupInputs>();
+  const { register, handleSubmit, setValue } = useForm<SignupInputs>();
+  const { enqueueSnackbar } = useSnackbar();
 
   const signupMutation = useMutation(signupUser, {
     onSuccess: () => {
@@ -33,8 +39,31 @@ export default function Signup() {
     },
   });
 
-  const onSubmit: SubmitHandler<SignupInputs> = async (data) => {
-    signupMutation.mutate(data);
+  const onSubmit: SubmitHandler<SignupInputs> = async (data, event) => {
+    // Prevent the default form submission
+    event?.preventDefault();
+
+    // Retrieve the Turnstile token from the form
+    const token = event?.target["cf-turnstile-response"]?.value;
+
+    if (token) {
+      // Construct the user object expected by the backend
+      const user: UsuarioCreate = {
+        username: data.username,
+        recipient_email: data.recipient_email,
+        password: data.password,
+        turnstile_response: token,
+      };
+
+      // Send the user object and the Turnstile response token to the server
+      signupMutation.mutate(user);
+    } else {
+      // Handle the error case where the token is missing
+      enqueueSnackbar("Complete el Captcha correctamente", {
+        variant: "error",
+        autoHideDuration: 3000,
+      });
+    }
   };
 
   return (
@@ -42,6 +71,11 @@ export default function Signup() {
       <Head>
         <title>Registrarse | Mail Relay</title>
       </Head>
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+      ></Script>
       <form
         className="z-10 rounded-lg bg-white p-10 shadow-md"
         onSubmit={handleSubmit(onSubmit)}
@@ -86,6 +120,11 @@ export default function Signup() {
             {...register("password", { required: true })}
           />
         </div>
+        <div
+          className="cf-turnstile mb-6"
+          data-sitekey={CLOUDFLARE_SITE_KEY}
+          data-callback="javascriptCallback"
+        ></div>
         <button
           className="w-full rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
           type="submit"

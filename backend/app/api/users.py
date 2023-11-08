@@ -1,8 +1,10 @@
+import requests
 from typing import List
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Form
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.core.database import get_db
+from app.core.config import CLOUDFLARE_SECRET_KEY
 from app.models.users import User, UserBase, UserCreate
 from app.crud import crud_users
 from app.core.security import (
@@ -16,12 +18,27 @@ from app.core.security import (
 router = APIRouter()
 
 
+def verify_turnstile_token(token: str) -> bool:
+    response = requests.post(
+        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        data={"secret": CLOUDFLARE_SECRET_KEY, "response": token},
+    )
+    return response.json().get("success", False)
+
+
 @router.post("/signup/")
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    # Verify the Turnstile token
+    if not verify_turnstile_token(user.turnstile_response):
+        raise HTTPException(status_code=400, detail="CAPTCHA verification failed")
+
+    # Check if the user or email is already registered
     if crud_users.get_user_by_username(db, username=user.username):
         raise HTTPException(status_code=400, detail="Username already registered")
     if crud_users.get_user_by_recipient_email(db, recipient_email=user.recipient_email):
         raise HTTPException(status_code=400, detail="Email already registered")
+
+    # Create new user
     db_user = User(
         username=user.username,
         password=get_password_hash(user.password),

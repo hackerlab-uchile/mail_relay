@@ -31,7 +31,10 @@ def test_client():
 @pytest.fixture
 def test_user():
     return UserCreate(
-        username="testuser", password="password123", recipient_email="test@email.com"
+        username="testuser",
+        password="password123",
+        recipient_email="test@email.com",
+        turnstile_response="testToken",
     )
 
 
