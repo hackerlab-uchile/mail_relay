@@ -11,10 +11,16 @@ router = APIRouter()
 
 @router.post("/")
 def create_user_alias(
+    alias_create: AliasBase,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    new_alias = crud_aliases.create_alias(db=db, user_id=current_user.id)
+    new_alias = crud_aliases.create_alias(
+        db=db,
+        user_id=current_user.id,
+        active=True,
+        description=alias_create.description,
+    )
     return new_alias
 
 

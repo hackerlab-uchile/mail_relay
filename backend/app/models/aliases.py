@@ -13,14 +13,15 @@ class Alias(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_deleted: Mapped[bool] = mapped_column(Boolean, default=False)
+    description: Mapped[str] = mapped_column(String(255), nullable=True)
 
 
 # PYDANTIC
 class AliasBase(BaseModel):
     active: Optional[bool] = True
-    is_deleted: Optional[bool] = False
+    description: Optional[str] = None
 
 
 class AliasUpdate(AliasBase):
-    email: str | None = None
     active: Optional[bool] = None
+    description: Optional[str] = None
