@@ -6,7 +6,6 @@ export interface Alias {
 }
 
 export interface AliasFormValues {
-  email: string;
   active?: boolean;
-  comment?: string;
+  description?: string;
 }
