@@ -39,7 +39,7 @@ def authenticated_client(test_client, test_user, override_get_db):
 
 @pytest.fixture
 def test_alias():
-    return AliasBase(email="testalias@example.com", active=True)
+    return AliasBase(active=True, description="Test alias")
 
 
 @pytest.fixture
@@ -83,15 +83,9 @@ def test_create_alias_no_auth(test_client, test_alias):
 def test_create_alias(authenticated_client, test_alias):
     response = authenticated_client.post("/aliases/", json=test_alias.model_dump())
     assert response.status_code == 200
-    assert response.json()["email"] == test_alias.email
-
-
-# POST /aliases/ with duplicate alias
-def test_create_duplicate_alias(authenticated_client, test_alias):
-    authenticated_client.post("/aliases/", json=test_alias.model_dump())
-    response = authenticated_client.post("/aliases/", json=test_alias.model_dump())
-    assert response.status_code == 400
-    assert response.json()["detail"] == "Alias already registered"
+    email = response.json()["email"]
+    assert email and isinstance(email, str)
+    assert "@" in email
 
 
 # GET /aliases/{alias_id} without authentication
@@ -113,13 +107,15 @@ def test_get_specific_alias_correct_id(authenticated_client, test_alias):
     ).json()
     response = authenticated_client.get(f"/aliases/{created_alias['id']}/")
     assert response.status_code == 200
-    assert response.json()["email"] == test_alias.email
+    returned_alias = response.json()
+    assert "email" in returned_alias and isinstance(returned_alias["email"], str)
+    assert returned_alias["description"] == test_alias.description
 
 
 # PUT /aliases/{alias_id} without authentication
 def test_update_specific_alias_no_auth(test_client, test_alias):
     updated_alias_data = test_alias.model_dump()
-    updated_alias_data["email"] = "updated@example.com"
+    updated_alias_data["active"] = False
     response = test_client.put("/aliases/1/", json=updated_alias_data)
     assert response.status_code == 401  # Unauthorized
 
@@ -138,12 +134,36 @@ def test_update_specific_alias_correct_id(authenticated_client, test_alias):
         "/aliases/", json=test_alias.model_dump()
     ).json()
     updated_alias_data = test_alias.model_dump()
-    updated_alias_data["email"] = "updated@example.com"
+    updated_alias_data["active"] = False
     response = authenticated_client.put(
         f"/aliases/{created_alias['id']}/", json=updated_alias_data
     )
     assert response.status_code == 200
-    assert response.json()["email"] == "updated@example.com"
+    assert response.json()["active"] == False
+
+
+# PUT /aliases/{alias_id} with authentication and correct ID but no data
+def test_update_specific_alias_no_data(authenticated_client, test_alias):
+    created_alias = authenticated_client.post(
+        "/aliases/", json=test_alias.model_dump()
+    ).json()
+    response = authenticated_client.put(f"/aliases/{created_alias['id']}/", json={})
+    assert response.status_code == 200
+    assert response.json()["active"] == True
+
+
+# PUT /aliases/{alias_id} with authentication and correct ID now updating description
+def test_update_specific_alias_description(authenticated_client, test_alias):
+    created_alias = authenticated_client.post(
+        "/aliases/", json=test_alias.model_dump()
+    ).json()
+    updated_alias_data = test_alias.model_dump()
+    updated_alias_data["description"] = "New description"
+    response = authenticated_client.put(
+        f"/aliases/{created_alias['id']}/", json=updated_alias_data
+    )
+    assert response.status_code == 200
+    assert response.json()["description"] == "New description"
 
 
 # DELETE /aliases/{alias_id} without authentication
