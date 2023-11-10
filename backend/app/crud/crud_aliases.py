@@ -43,7 +43,7 @@ def get_aliases_by_user_id(db: Session, user_id: int):
 
 
 def get_alias_by_email(db: Session, email: str):
-    return db.query(Alias).filter(Alias.email == email).first()
+    return db.query(Alias).filter(Alias.email == email and not Alias.is_deleted).first()
 
 
 def get_all_aliases(db: Session):
@@ -52,11 +52,13 @@ def get_all_aliases(db: Session):
 
 
 def get_alias_by_id(db: Session, alias_id: int):
-    return db.query(Alias).filter(Alias.id == alias_id).first()
+    return db.query(Alias).filter(Alias.id == alias_id and not Alias.is_deleted).first()
 
 
 def update_alias(db: Session, alias_id: int, alias_update_data: AliasUpdate):
-    db_alias = db.query(Alias).filter(Alias.id == alias_id).first()
+    db_alias = (
+        db.query(Alias).filter(Alias.id == alias_id and not Alias.is_deleted).first()
+    )
     if alias_update_data.active != None:
         db_alias.active = alias_update_data.active
     if alias_update_data.description != None:
@@ -69,5 +71,6 @@ def update_alias(db: Session, alias_id: int, alias_update_data: AliasUpdate):
 def delete_alias(db: Session, alias_id: int):
     db_alias = db.query(Alias).filter(Alias.id == alias_id).first()
     db_alias.is_deleted = True
+    db_alias.active = False
     db.commit()
     return {"message": "Alias deleted."}
