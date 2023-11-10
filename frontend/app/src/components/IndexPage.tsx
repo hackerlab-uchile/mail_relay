@@ -114,6 +114,7 @@ export default function IndexPage() {
           <thead>
             <tr>
               <th className="px-6 py-4 text-left">Nombre del Correo</th>
+              <th className="w-2/3 py-4 text-left">Descripción</th>
               <th className="px-6 py-4 text-left">Activo</th>
             </tr>
           </thead>
@@ -123,6 +124,7 @@ export default function IndexPage() {
               .map((alias, index) => (
                 <tr key={index} className="hover:bg-background">
                   <td className="px-6 py-4">{alias.email}</td>
+                  <td className=" py-4">{alias.description || ""}</td>
                   <td className="px-6 py-4">
                     <Toggle
                       isActive={alias.active}

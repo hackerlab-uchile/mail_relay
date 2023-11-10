@@ -3,6 +3,7 @@ export interface Alias {
   email: string;
   active: boolean;
   user_id: number;
+  description?: string;
 }
 
 export interface AliasFormValues {
