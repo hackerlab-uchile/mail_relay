@@ -33,17 +33,10 @@ export const AliasModalRender: FC<ModalRenderProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <label
-        htmlFor="active"
-        className="block mt-4 text-sm font-medium text-gray-700"
-      >
-        Active
-      </label>
-
-      <label
         htmlFor="description"
         className="block mt-4 text-sm font-medium text-gray-700"
       >
-        Description
+        Descripción
       </label>
       <textarea
         {...register("description")}
