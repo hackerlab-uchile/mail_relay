@@ -38,12 +38,20 @@ def create_alias(
 
 def get_aliases_by_user_id(db: Session, user_id: int):
     return (
-        db.query(Alias).filter(Alias.user_id == user_id and not Alias.is_deleted).all()
+        db.query(Alias)
+        .filter(Alias.user_id == user_id)
+        .filter(Alias.is_deleted == False)
+        .all()
     )
 
 
 def get_alias_by_email(db: Session, email: str):
-    return db.query(Alias).filter(Alias.email == email and not Alias.is_deleted).first()
+    return (
+        db.query(Alias)
+        .filter(Alias.email == email)
+        .filter(Alias.is_deleted == False)
+        .first()
+    )
 
 
 def get_all_aliases(db: Session):
@@ -52,12 +60,20 @@ def get_all_aliases(db: Session):
 
 
 def get_alias_by_id(db: Session, alias_id: int):
-    return db.query(Alias).filter(Alias.id == alias_id and not Alias.is_deleted).first()
+    return (
+        db.query(Alias)
+        .filter(Alias.id == alias_id)
+        .filter(Alias.is_deleted == False)
+        .first()
+    )
 
 
 def update_alias(db: Session, alias_id: int, alias_update_data: AliasUpdate):
     db_alias = (
-        db.query(Alias).filter(Alias.id == alias_id and not Alias.is_deleted).first()
+        db.query(Alias)
+        .filter(Alias.id == alias_id)
+        .filter(Alias.is_deleted == False)
+        .first()
     )
     if alias_update_data.active != None:
         db_alias.active = alias_update_data.active
