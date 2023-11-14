@@ -45,7 +45,7 @@ export const DeleteAliasModalRender: FC<ModalRenderProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p>
-        Please type <strong>{aliasNameBeforeAt}</strong> to confirm deletion.
+        Porfavor escriba <strong>{aliasNameBeforeAt}</strong> para confirmar.
       </p>
       <input
         {...register("confirmAliasName", { required: true })}
@@ -54,10 +54,15 @@ export const DeleteAliasModalRender: FC<ModalRenderProps> = ({
       />
       <div className="mt-6 flex justify-between">
         <Button type="button" onClick={handleClose}>
-          Cancel
+          Cancelar
         </Button>
-        <Button filled type="submit" disabled={!isConfirmed}>
-          Confirm Delete
+        <Button
+          filled
+          className="bg-red-500 border-red-500"
+          type="submit"
+          disabled={!isConfirmed}
+        >
+          Borrar
         </Button>
       </div>
     </form>
@@ -80,7 +85,7 @@ const DeleteAliasModal: FC<DeleteAliasModalProps> = ({
     <Modal
       className="bg-red-500 border-red-500 "
       icon="trash-solid"
-      title="Confirm Delete"
+      title="Confirmar Borrado de Correo"
       render={(renderProps: any) => (
         <DeleteAliasModalRender
           {...renderProps}
