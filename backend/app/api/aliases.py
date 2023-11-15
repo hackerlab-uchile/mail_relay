@@ -10,15 +10,18 @@ router = APIRouter()
 
 
 @router.post("/")
-def create_alias(
-    alias: AliasBase,
+def create_user_alias(
+    alias_create: AliasBase,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    if crud_aliases.get_alias_by_email(db, email=alias.email):
-        raise HTTPException(status_code=400, detail="Alias already registered")
-    db_alias = Alias(user_id=current_user.id, email=alias.email, active=alias.active)
-    return crud_aliases.create_alias(db=db, alias=db_alias)
+    new_alias = crud_aliases.create_alias(
+        db=db,
+        user_id=current_user.id,
+        active=True,
+        description=alias_create.description,
+    )
+    return new_alias
 
 
 @router.get("/")

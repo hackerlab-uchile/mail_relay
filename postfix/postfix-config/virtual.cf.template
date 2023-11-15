@@ -2,4 +2,4 @@ hosts = db
 user = ${POSTGRES_USER}
 password = ${POSTGRES_PASSWORD}
 dbname = ${POSTGRES_DB}
-query = SELECT users.recipient_email FROM aliases JOIN users ON aliases.user_id = users.id WHERE aliases.email='%s' AND aliases.active=true;
+query = SELECT users.recipient_email FROM aliases JOIN users ON aliases.user_id = users.id WHERE aliases.email='%s' AND aliases.active=true AND aliases.is_deleted=false;

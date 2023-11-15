@@ -12,14 +12,16 @@ class Alias(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
     email: Mapped[str] = mapped_column(String(255), unique=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_deleted: Mapped[bool] = mapped_column(Boolean, default=False)
+    description: Mapped[str] = mapped_column(String(255), nullable=True)
 
 
 # PYDANTIC
 class AliasBase(BaseModel):
-    email: str
     active: Optional[bool] = True
+    description: Optional[str] = None
 
 
 class AliasUpdate(AliasBase):
-    email: str | None = None
     active: Optional[bool] = None
+    description: Optional[str] = None

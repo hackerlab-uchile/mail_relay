@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { logout, useUser } from "@/hooks/auth";
-import { getAliases, updateAlias } from "@/api/api";
+import { getAliases, updateAlias, deleteAlias } from "@/api/api";
 import { Alias } from "@/types/Alias";
 import Toggle from "./ui/Toggle";
 import Button from "./ui/Button";
 import AliasModal from "./modals/AliasModal";
+import DeleteAliasModal from "./modals/DeleteAliasModal";
 
 export default function IndexPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -114,7 +115,9 @@ export default function IndexPage() {
           <thead>
             <tr>
               <th className="px-6 py-4 text-left">Nombre del Correo</th>
+              <th className="w-2/3 py-4 text-left">Descripción</th>
               <th className="px-6 py-4 text-left">Activo</th>
+              <th className="px-6 py-4 text-left">Eliminar</th>
             </tr>
           </thead>
           <tbody>
@@ -123,10 +126,18 @@ export default function IndexPage() {
               .map((alias, index) => (
                 <tr key={index} className="hover:bg-background">
                   <td className="px-6 py-4">{alias.email}</td>
+                  <td className=" py-4">{alias.description || ""}</td>
                   <td className="px-6 py-4">
                     <Toggle
                       isActive={alias.active}
                       onToggle={() => toggleAlias(alias)}
+                    />
+                  </td>
+                  <td className="px-6 py-4">
+                    <DeleteAliasModal
+                      aliasId={alias.id}
+                      aliasName={alias.email}
+                      queryClient={queryClient}
                     />
                   </td>
                 </tr>

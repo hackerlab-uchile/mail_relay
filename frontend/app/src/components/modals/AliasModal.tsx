@@ -15,53 +15,35 @@ export const AliasModalRender: FC<ModalRenderProps> = ({
   handleClose,
   queryClient,
 }) => {
-  const { handleSubmit, control, register } = useForm<AliasFormValues>();
+  const { handleSubmit, register } = useForm<AliasFormValues>();
   const aliasMutation = useMutation(createAlias, {
     onSuccess: () => {
       handleClose();
       queryClient.invalidateQueries("aliases");
     },
   });
+
   const onSubmit: SubmitHandler<AliasFormValues> = (data) => {
-    aliasMutation.mutate(data);
+    aliasMutation.mutate({
+      description: data?.description,
+      active: data?.active,
+    });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <label
-        htmlFor="email"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Email
-      </label>
-      <input
-        {...register("email", { required: true })}
-        type="email"
-        name="email"
-        id="email"
-        className="mt-1 p-2 block w-full border rounded-md"
-        required
-      />
-
-      <label
-        htmlFor="active"
+        htmlFor="description"
         className="block mt-4 text-sm font-medium text-gray-700"
       >
-        Active
-      </label>
-
-      <label
-        htmlFor="comment"
-        className="block mt-4 text-sm font-medium text-gray-700"
-      >
-        Comentario
+        Descripción
       </label>
       <textarea
-        {...register("comment")}
-        name="comment"
-        id="comment"
+        {...register("description")}
+        name="description"
+        id="description"
         className="mt-1 p-2 block w-full border rounded-md"
-      ></textarea>
+      />
 
       <div className="mt-6 flex justify-between">
         <Button type="button" onClick={handleClose}>

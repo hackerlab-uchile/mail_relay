@@ -59,3 +59,7 @@ export async function updateAlias(
 export async function createAlias(alias: AliasFormValues) {
   return apiClient.post("/aliases/", alias).then((response) => response.data);
 }
+
+export async function deleteAlias(aliasId: number) {
+  return apiClient.delete(`/aliases/${aliasId}`);
+}
