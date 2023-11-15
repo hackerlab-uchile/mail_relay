@@ -7,6 +7,8 @@ import Toggle from "./ui/Toggle";
 import Button from "./ui/Button";
 import AliasModal from "./modals/AliasModal";
 import DeleteAliasModal from "./modals/DeleteAliasModal";
+import { FiClipboard } from "react-icons/fi";
+import { enqueueSnackbar } from "notistack";
 
 export default function IndexPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,6 +46,16 @@ export default function IndexPage() {
       updatedAlias: {
         active: !alias.active,
       },
+    });
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      enqueueSnackbar("Copiado al portapapeles", {
+        variant: "success",
+        preventDuplicate: true,
+        autoHideDuration: 3000,
+      });
     });
   };
 
@@ -125,7 +137,13 @@ export default function IndexPage() {
               ?.sort((a, b) => a.id - b.id)
               .map((alias, index) => (
                 <tr key={index} className="hover:bg-background">
-                  <td className="px-6 py-4">{alias.email}</td>
+                  <td className="px-6 py-4 flex">
+                    {alias.email}
+                    <FiClipboard
+                      className="mt-1.5 ml-2 cursor-pointer"
+                      onClick={() => copyToClipboard(alias.email)}
+                    />
+                  </td>
                   <td className=" py-4">{alias.description || ""}</td>
                   <td className="px-6 py-4">
                     <Toggle
