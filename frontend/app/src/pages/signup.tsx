@@ -14,7 +14,7 @@ type SignupInputs = {
   turnstileToken?: string;
 };
 
-let CLOUDFLARE_SITE_KEY = process.env.NEXT_CLOUDFLARE_SITE_KEY;
+let CLOUDFLARE_SITE_KEY = process.env.NEXT_CLOUDFLARE_SITE_KEY?.toString();
 
 export default function Signup() {
   const router = useRouter();
@@ -122,7 +122,7 @@ export default function Signup() {
         </div>
         <div
           className="cf-turnstile mb-6"
-          data-sitekey={CLOUDFLARE_SITE_KEY}
+          data-sitekey={CLOUDFLARE_SITE_KEY ? CLOUDFLARE_SITE_KEY : ""}
           data-callback="javascriptCallback"
         ></div>
         <button
