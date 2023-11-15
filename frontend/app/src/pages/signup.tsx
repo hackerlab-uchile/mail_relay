@@ -122,7 +122,7 @@ export default function Signup() {
         </div>
         <div
           className="cf-turnstile mb-6"
-          data-sitekey={CLOUDFLARE_SITE_KEY ? CLOUDFLARE_SITE_KEY : ""}
+          data-sitekey={CLOUDFLARE_SITE_KEY}
           data-callback="javascriptCallback"
         ></div>
         <button
