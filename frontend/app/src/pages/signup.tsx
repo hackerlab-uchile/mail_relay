@@ -14,7 +14,7 @@ type SignupInputs = {
   turnstileToken?: string;
 };
 
-let CLOUDFLARE_SITE_KEY = process.env.NEXT_CLOUDFLARE_SITE_KEY?.toString();
+let CLOUDFLARE_SITE_KEY = process.env.NEXT_PUBLIC_CLOUDFLARE_SITE_KEY;
 
 export default function Signup() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function Signup() {
         autoHideDuration: 3000,
       });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       enqueueSnackbar("Error en la creación de cuenta", {
         variant: "error",
         autoHideDuration: 3000,
