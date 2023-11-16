@@ -74,6 +74,8 @@ services:
       - ./postfix/init-scripts:/docker-init.db/
       - ./postfix/rsyslog.d:/etc/rsyslog.d
       - ./postfix/logs:/var/log
+      #bind /etc/opendkim/keys to a persistent volume
+      - ./postfix/opendkim/keys:/etc/opendkim/keys
 
     ports:
       - 25:587

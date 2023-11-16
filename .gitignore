@@ -27,3 +27,6 @@ postfix/postfix-config/master.cf
 postfix/postfix-config/recipients.cf
 postfix/postfix-config/virtual.cf
 postfix.log
+postfix/opendkim/keys/*
+postfix/postfix-config/allowed_senders
+postfix/postfix-config/allowed_senders.lmdb
