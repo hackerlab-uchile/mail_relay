@@ -9,6 +9,7 @@ import AliasModal from "./modals/AliasModal";
 import DeleteAliasModal from "./modals/DeleteAliasModal";
 import { FiClipboard } from "react-icons/fi";
 import { enqueueSnackbar } from "notistack";
+import Image from "next/image";
 
 export default function IndexPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -64,11 +65,18 @@ export default function IndexPage() {
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Header */}
-      <header className="p-4 text-font dark:bg-background-dark">
+      <header className="p-2 text-font dark:bg-background-dark">
         <div className="container mx-auto flex justify-between items-center">
-          <div>
+          <div className="flex items-center">
+            <Image
+              src={`/icons/logo.svg`}
+              width={64}
+              height={64}
+              alt="Chinchilla Mail Logo"
+              className=""
+            />
             <h1 className="text-2xl font-semibold text-black dark:text-white mr-6">
-              Mail Relay
+              Chinchilla Mail
             </h1>
           </div>
           <div className="relative">

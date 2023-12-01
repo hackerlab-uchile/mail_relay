@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Link from "next/link"; // Import Link from next/link
+import Link from "next/link";
 import { login, useUser } from "@/hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -50,13 +50,29 @@ export default function Home() {
   }, [router, userQuery.isSuccess, userQuery.isLoading]);
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-primary">
+    <div className="flex h-screen flex-col items-center justify-start bg-primary">
       <div className="absolute bottom-0 right-0"></div>
       <Head>
         <title>Iniciar Sesión | Mail Relay</title>
       </Head>
+      <div className="flex items-center">
+        <h1
+          className="text-6xl font-extrabold text-white "
+          style={{ WebkitTextStroke: "2px black" }}
+        >
+          Chinchilla Mail
+        </h1>
+        <Image
+          src={`/icons/logo.svg`}
+          width={128}
+          height={128}
+          alt="Chinchilla Mail Logo"
+          className="ml-4"
+        />
+      </div>
+
       <form
-        className="z-10 rounded-lg bg-white p-10 shadow-md"
+        className="z-10 rounded-lg bg-white p-12 shadow-md"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="mb-8 text-center text-2xl font-bold text-gray-800">

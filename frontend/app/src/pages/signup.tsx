@@ -6,6 +6,8 @@ import { signupUser } from "@/api/api";
 import { SnackbarProvider, enqueueSnackbar, useSnackbar } from "notistack";
 import Script from "next/script";
 import { UsuarioCreate } from "@/types/Usuario";
+import Link from "next/link";
+import Image from "next/image";
 
 type SignupInputs = {
   username: string;
@@ -67,7 +69,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-primary">
+    <div className="flex h-screen flex-col items-center justify-start bg-primary">
       <Head>
         <title>Registrarse | Mail Relay</title>
       </Head>
@@ -76,6 +78,21 @@ export default function Signup() {
         async
         defer
       ></Script>
+      <div className="flex items-center">
+        <h1
+          className="text-6xl font-extrabold text-white "
+          style={{ WebkitTextStroke: "2px black" }}
+        >
+          Chinchilla Mail
+        </h1>
+        <Image
+          src={`/icons/logo.svg`}
+          width={128}
+          height={128}
+          alt="Chinchilla Mail Logo"
+          className="ml-4"
+        />
+      </div>
       <form
         className="z-10 rounded-lg bg-white p-10 shadow-md"
         onSubmit={handleSubmit(onSubmit)}
@@ -131,6 +148,14 @@ export default function Signup() {
         >
           Registrar
         </button>
+        <div className="mt-4 text-center">
+          <p>
+            ¿Ya tienes cuenta?{" "}
+            <Link className="text-blue-700" href="/login">
+              Vuelve al inicio de sesión
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
