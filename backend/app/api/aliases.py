@@ -15,6 +15,10 @@ def create_user_alias(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
+    if len(crud_aliases.get_aliases_by_user_id(db, current_user.id)) >= 10:
+        raise HTTPException(
+            status_code=400, detail="You cannot have more than 10 aliases."
+        )
     new_alias = crud_aliases.create_alias(
         db=db,
         user_id=current_user.id,

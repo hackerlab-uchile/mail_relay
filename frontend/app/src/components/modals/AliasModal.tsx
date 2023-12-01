@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createAlias } from "@/api/api";
 import Button from "../ui/Button";
 import { AliasFormValues } from "@/types/Alias";
+import { enqueueSnackbar } from "notistack";
 
 interface ModalRenderProps {
   handleClose: () => void;
@@ -20,6 +21,21 @@ export const AliasModalRender: FC<ModalRenderProps> = ({
     onSuccess: () => {
       handleClose();
       queryClient.invalidateQueries("aliases");
+    },
+    onError: (error: any) => {
+      if (
+        error.response.data.detail === "You cannot have more than 10 aliases."
+      ) {
+        enqueueSnackbar("No puedes tener mas de 10 aliases", {
+          variant: "error",
+          autoHideDuration: 3000,
+        });
+      } else {
+        enqueueSnackbar("Error en la creación de alias", {
+          variant: "error",
+          autoHideDuration: 3000,
+        });
+      }
     },
   });
 

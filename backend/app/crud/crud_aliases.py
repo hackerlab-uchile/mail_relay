@@ -15,6 +15,8 @@ def generate_random_alias():
 def create_alias(
     db: Session, user_id: int, active: bool = True, description: str = None
 ):
+    if len(get_aliases_by_user_id(db, user_id)) >= 10:
+        raise Exception("You cannot have more than 10 aliases.")
     attempts = 0
     while attempts < 5:
         unique_alias_email = generate_random_alias()
