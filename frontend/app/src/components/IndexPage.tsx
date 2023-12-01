@@ -104,9 +104,9 @@ export default function IndexPage() {
             {menuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-md">
                 <ul>
-                  <li className="px-4 py-2 hover:bg-background cursor-pointer rounded-lg">
+                  {/* <li className="px-4 py-2 hover:bg-background cursor-pointer rounded-lg">
                     Opciones
-                  </li>
+                  </li> */}
                   <li
                     className="px-4 py-2 hover:bg-background cursor-pointer rounded-lg"
                     onClick={handleLogout}
