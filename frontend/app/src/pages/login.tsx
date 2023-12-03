@@ -53,7 +53,7 @@ export default function Home() {
     <div className="flex h-screen flex-col items-center justify-start bg-primary">
       <div className="absolute bottom-0 right-0"></div>
       <Head>
-        <title>Iniciar Sesión | Mail Relay</title>
+        <title>Iniciar Sesión | Chinchilla Mail</title>
       </Head>
       <div className="flex items-center">
         <h1

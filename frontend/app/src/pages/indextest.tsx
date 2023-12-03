@@ -22,7 +22,7 @@ export default function IndexPage() {
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
           <div className="flex items-center">
             <h1 className="text-2xl font-semibold text-black dark:text-white mr-6">
-              Mail Relay
+              Chinchilla Mail
             </h1>
             <input
               type="text"

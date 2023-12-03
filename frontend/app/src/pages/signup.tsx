@@ -71,7 +71,7 @@ export default function Signup() {
   return (
     <div className="flex h-screen flex-col items-center justify-start bg-primary">
       <Head>
-        <title>Registrarse | Mail Relay</title>
+        <title>Registrarse | Chinchilla Mail</title>
       </Head>
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js"
