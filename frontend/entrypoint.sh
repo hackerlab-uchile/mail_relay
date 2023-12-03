@@ -2,8 +2,15 @@
 
 # Ensure all the necessary node modules are installed
 npm install
-#npm run build
 
-# Start the frontend development server
-#npm run start-watch
-npm run dev
+# Check if NEXT_PUBLIC_PROD is set to true
+if [ "$NEXT_PUBLIC_PROD" = "true" ]
+then
+    echo "Building for production..."
+    npm run build
+    echo "Starting production server..."
+    npm run start
+else
+    echo "Starting development server..."
+    npm run dev
+fi
