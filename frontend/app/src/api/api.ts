@@ -33,7 +33,7 @@ export async function signupUser(signupData: UsuarioCreate): Promise<any> {
       .post("/users/signup/", signupData)
       .then((response) => response.data)
       .catch((error) => {
-          throw new Error(error.response.data.detail || "Unknown error occurred");
+          throw new Error(error || "Unknown error occurred");
       });
 }
 

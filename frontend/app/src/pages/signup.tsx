@@ -60,7 +60,15 @@ export default function Signup() {
       };
 
       // Send the user object and the Turnstile response token to the server
-      signupMutation.mutate(user);
+      // signupMutation.mutate(user);
+      try {
+        await signupMutation.mutateAsync(user);
+      } catch (error) {
+        enqueueSnackbar("Error en la creación de cuenta: " + error, {
+          variant: "error",
+          autoHideDuration: 3000,
+        });
+      }
     } else {
       // Handle the error case where the token is missing
       enqueueSnackbar("Complete el Captcha correctamente", {
