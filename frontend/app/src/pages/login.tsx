@@ -49,6 +49,10 @@ export default function Home() {
     }
   }, [router, userQuery.isSuccess, userQuery.isLoading]);
 
+  const navigateToSignup = () => {
+    window.location.href = "/signup"; // Full page reload
+  };
+
   return (
     <div className="flex h-screen flex-col items-center justify-start bg-primary">
       <div className="absolute bottom-0 right-0"></div>
@@ -112,9 +116,9 @@ export default function Home() {
         <div className="mt-4 text-center">
           <p>
             ¿Aún no tienes cuenta?{" "}
-            <Link className="text-blue-700" href="/signup">
+            <button className="text-blue-700" onClick={navigateToSignup}>
               Regístrate
-            </Link>
+            </button>
           </p>
         </div>
       </form>
