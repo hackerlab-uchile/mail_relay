@@ -6,10 +6,42 @@ from app.core.config import DOMAIN
 
 
 def generate_random_alias():
-    animals = ["lion", "tiger", "bear", "eagle", "shark"]
-    adjectives = ["swift", "mighty", "brave", "sly", "quick"]
+    animals = [
+        "pudu",
+        "guanaco",
+        "quirquincho",
+        "condor",
+        "chucao",
+        "zorro",
+        "puma",
+        "flamenco",
+        "llama",
+        "pinguino",
+        "coipo",
+        "huemul",
+        "loro",
+        "vicuna",
+        "gaviota",
+    ]
+    adjectives = [
+        "regalon",
+        "picado",
+        "filete",
+        "bacan",
+        "astuto",
+        "chorizo",
+        "piola",
+        "avispado",
+        "copuchento",
+        "seco",
+        "fome",
+        "pillo",
+        "filete",
+        "encachado",
+        "cuatico",
+    ]
     number = randint(0, 999)
-    return f"{choice(adjectives)}.{choice(animals)}.{number}@{DOMAIN}"
+    return f"{choice(animals)}.{choice(adjectives)}.{number}@{DOMAIN}"
 
 
 def create_alias(
