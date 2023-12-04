@@ -75,6 +75,8 @@ export default function Signup() {
         variant: "error",
         autoHideDuration: 3000,
       });
+      // reload page
+      router.reload();
     }
   };
 
