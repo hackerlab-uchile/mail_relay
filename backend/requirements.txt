@@ -11,3 +11,4 @@ pytest
 pytest-cov
 httpx
 requests
+bcrypt==4.0.1
