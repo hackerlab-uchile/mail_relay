@@ -49,7 +49,7 @@ def authenticated_client(test_client, test_user, override_get_db):
 # POST /signup/ Testing user signup
 def test_signup(test_client, test_user, override_get_db):
     response = test_client.post("/users/signup/", json=test_user.model_dump())
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert "username" in response.json()
 
 
