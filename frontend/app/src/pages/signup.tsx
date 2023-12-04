@@ -25,13 +25,15 @@ export default function Signup() {
   const { enqueueSnackbar } = useSnackbar();
 
   const signupMutation = useMutation(signupUser, {
-    onSuccess: () => {
+    onSuccess: (response) => {
+      if (response.message === "User created successfully") {
+        enqueueSnackbar("La cuenta se creó correctamente", {
+          variant: "success",
+          preventDuplicate: true,
+          autoHideDuration: 3000,
+        });
+      }
       router.push("/login");
-      enqueueSnackbar("La cuenta se creó correctamente", {
-        variant: "success",
-        preventDuplicate: true,
-        autoHideDuration: 3000,
-      });
     },
     onError: (error: any) => {
       enqueueSnackbar("Error en la creación de cuenta", {

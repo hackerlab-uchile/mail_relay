@@ -1,3 +1,4 @@
+from fastapi.responses import JSONResponse
 import requests
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Form
@@ -44,7 +45,11 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         password=get_password_hash(user.password),
         recipient_email=user.recipient_email,
     )
-    return crud_users.create_user(db=db, user=db_user)
+    crud_users.create_user(db=db, user=db_user)
+    return JSONResponse(
+        status_code=201,
+        content={"message": "User created successfully", "user": db_user.username},
+    )
 
 
 @router.post("/signin/")

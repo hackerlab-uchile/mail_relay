@@ -28,10 +28,13 @@ export async function getCurrentUsuario(): Promise<Usuario> {
     .then((response) => response.data);
 }
 
-export async function signupUser(signupData: UsuarioCreate): Promise<Usuario> {
+export async function signupUser(signupData: UsuarioCreate): Promise<any> {
   return apiClient
-    .post("/users/signup/", signupData)
-    .then((response) => response.data);
+      .post("/users/signup/", signupData)
+      .then((response) => response.data)
+      .catch((error) => {
+          throw new Error(error.response.data.detail || "Unknown error occurred");
+      });
 }
 
 export async function getAliases() {
