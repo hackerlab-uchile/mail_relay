@@ -64,7 +64,7 @@ export default function Signup() {
       try {
         await signupMutation.mutateAsync(user);
       } catch (error) {
-        enqueueSnackbar("Error en la creación de cuenta: " + error, {
+        enqueueSnackbar("Error en la creación de cuenta: ", {
           variant: "error",
           autoHideDuration: 3000,
         });
