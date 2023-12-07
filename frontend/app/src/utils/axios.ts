@@ -10,7 +10,7 @@ console.log("backend:base_url", base_url);
 
 const apiClient = axios.create({
   baseURL: base_url,
-  timeout: 1000,
+  timeout: 5000,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
