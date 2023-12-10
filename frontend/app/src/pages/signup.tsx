@@ -13,6 +13,7 @@ type SignupInputs = {
   username: string;
   recipient_email: string;
   password: string;
+  confirm_password: string;
   turnstileToken?: string;
 };
 
@@ -46,6 +47,11 @@ export default function Signup() {
   const onSubmit: SubmitHandler<SignupInputs> = async (data, event) => {
     // Prevent the default form submission
     event?.preventDefault();
+
+    if (data.password !== data.confirm_password) {
+      enqueueSnackbar("Las contraseñas no coinciden", { variant: "error" });
+      return;
+    }
 
     // Retrieve the Turnstile token from the form
     const token = event?.target["cf-turnstile-response"]?.value;
@@ -147,6 +153,19 @@ export default function Signup() {
             className="w-full rounded-lg border border-gray-400 p-2"
             type="password"
             {...register("password", { required: true })}
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            className="mb-2 block font-bold text-gray-700"
+            htmlFor="confirm_password"
+          >
+            Confirmar Contraseña
+          </label>
+          <input
+            className="w-full rounded-lg border border-gray-400 p-2"
+            type="password"
+            {...register("confirm_password", { required: true })}
           />
         </div>
         <div
