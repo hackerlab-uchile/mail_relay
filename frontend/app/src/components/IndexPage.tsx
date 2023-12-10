@@ -86,7 +86,8 @@ export default function IndexPage() {
               aria-expanded="false"
               onClick={() => setMenuOpen(!menuOpen)}
             >
-              <span>{userQuery.data?.username}</span>
+              <span>{userQuery.data?.username}:</span>
+              <span> {userQuery.data?.recipient_email}</span>
               <svg
                 className="h-5 w-5"
                 viewBox="0 0 20 20"
