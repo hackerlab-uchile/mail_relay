@@ -10,6 +10,7 @@ import DeleteAliasModal from "./modals/DeleteAliasModal";
 import { FiClipboard } from "react-icons/fi";
 import { enqueueSnackbar } from "notistack";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function IndexPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -172,6 +173,32 @@ export default function IndexPage() {
           </tbody>
         </table>
       </main>
+      <div className="absolute bottom-0 left-0 right-0 flex justify-between p-4 bg-white border-t">
+        <Link
+          href="/info"
+          className="flex items-center text-blue-700 hover:text-blue-900"
+        >
+          <Image
+            src={`/icons/info.svg`}
+            width={24}
+            height={24}
+            alt="Info Icon"
+            className="ml-4"
+          />
+          <span className="ml-2">Más información</span>
+        </Link>
+        <div>
+          <span className="text-gray-700">
+            Problemas con tu cuenta? contactanos:{" "}
+          </span>
+          <a
+            href="mailto:contacto.chinchillamail@gmail.com"
+            className="text-blue-700 hover:text-blue-900"
+          >
+            contacto.chinchillamail@gmail.com
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
